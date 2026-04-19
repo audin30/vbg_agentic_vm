@@ -41,8 +41,9 @@ prioritizer = Agent(
     role='Security Risk Analyst',
     goal='Prioritize security vulnerabilities from the database and report them to stakeholders',
     backstory="""You are a senior risk analyst with deep expertise in vulnerability management. 
-    You use data from Tenable, Wiz, and CISA KEV to identify the most critical issues 
-    that require immediate attention.""",
+    You use data from Tenable, Wiz, Rapid7 (InsightVM & InsightIDR), and CISA KEV to identify 
+    the most critical issues that require immediate attention. You have a comprehensive view 
+    of the enterprise attack surface.""",
     tools=[SecurityPrioritizerTool(), EmailReporterTool()],
     llm=gemini_llm,
     verbose=True,

@@ -93,6 +93,18 @@ class SecurityPrioritizerTool(BaseTool):
                         wv.cvss_score
                     FROM public.wiz_vulnerabilities wv
                     JOIN public.wiz_inventory wi ON wv.resource_id = wi.id
+
+                    UNION ALL
+
+                    SELECT 
+                        UNNEST(iv.cves) as cve_id,
+                        ia.hostname,
+                        ia.ip_addresses[1] as ip_address,
+                        'InsightVM' as source,
+                        COALESCE(iv.cvss_v3_score, iv.cvss_v2_score) as cvss_score
+                    FROM public.insightvm_findings ifnd
+                    JOIN public.insightvm_vulnerabilities iv ON ifnd.vulnerability_id = iv.id
+                    JOIN public.insightvm_assets ia ON ifnd.asset_id = ia.id
                 ),
                 prioritized_findings AS (
                     SELECT 
@@ -103,6 +115,7 @@ class SecurityPrioritizerTool(BaseTool):
                         STRING_AGG(DISTINCT v.source, ', ') as sources,
                         EXISTS (SELECT 1 FROM public.cisa_kev ck WHERE ck.cve_id = v.cve_id) as in_cisa_kev,
                         EXISTS (SELECT 1 FROM public.tenable_asm_assets asm WHERE asm.hostname = v.hostname OR asm.ip_address = v.ip_address) as in_asm,
+                        EXISTS (SELECT 1 FROM public.rapid7_assets r7 WHERE r7.name = v.hostname OR v.ip_address = ANY(r7.ip_addresses)) as in_insightidr,
                         EXISTS (SELECT 1 FROM public.phpipam_assets ipam WHERE (ipam.hostname = v.hostname OR ipam.ip_address = v.ip_address) AND (ipam.subnet_description ILIKE '%MGMT%' OR ipam.subnet_description ILIKE '%OOB%')) as in_mgmt_subnet,
                         EXISTS (SELECT 1 FROM public.phpipam_assets ipam WHERE (ipam.hostname = v.hostname OR ipam.ip_address = v.ip_address) AND ipam.is_gateway = true) as is_gateway
                     FROM all_vulns v
@@ -118,6 +131,7 @@ class SecurityPrioritizerTool(BaseTool):
                     COALESCE(p.max_cvss, 0) + 
                     (CASE WHEN p.in_cisa_kev THEN 100 ELSE 0 END) + 
                     (CASE WHEN p.in_asm THEN 50 ELSE 0 END) + 
+                    (CASE WHEN p.in_insightidr THEN 15 ELSE 0 END) + 
                     (CASE WHEN p.in_mgmt_subnet THEN 30 ELSE 0 END) + 
                     (CASE WHEN p.is_gateway THEN 20 ELSE 0 END) + 
                     (CASE WHEN p.sources LIKE '%,%' THEN 20 ELSE 0 END)
