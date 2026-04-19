@@ -1,0 +1,17 @@
+{
+  "name": "vbg-agentic-vm",
+  "version": "1.0.0",
+  "description": "A centralized repository for specialized Gemini CLI Skills focused on security operations, threat intelligence, and vulnerability prioritization.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "axios": "^1.7.9",
+    "nodemailer": "^6.10.0",
+    "googleapis": "^144.0.0",
+    "google-auth-library": "^9.15.0"
+  },
+  "author": "secu",
+  "license": "MIT"
+}
