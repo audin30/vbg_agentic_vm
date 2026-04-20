@@ -11,21 +11,22 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
 from crew import create_security_crew
+from logger_config import logger
 
 if not os.getenv("GEMINI_API_KEY"):
-    print("WARNING: GEMINI_API_KEY is not set in backend/.env. Agents will not function.")
+    logger.warning("GEMINI_API_KEY is not set in backend/.env. Agents will not function.")
 else:
     # Set both for different library expectations
     os.environ["GOOGLE_API_KEY"] = os.getenv("GEMINI_API_KEY")
 
 if not os.getenv("WINRM_USER") or not os.getenv("WINRM_PASSWORD"):
-    print("WARNING: WINRM credentials are not set. Remediation tasks will fail.")
+    logger.warning("WINRM credentials are not set. Remediation tasks will fail.")
 
 if not os.getenv("MACOS_SSH_USER") or not os.getenv("MACOS_SSH_KEY_PATH"):
-    print("WARNING: macOS SSH credentials are not set. macOS remediation will fail.")
+    logger.warning("macOS SSH credentials are not set. macOS remediation will fail.")
 
 if not os.getenv("UBUNTU_SSH_USER") or not os.getenv("UBUNTU_SSH_KEY_PATH"):
-    print("WARNING: Ubuntu SSH credentials are not set. Ubuntu remediation tasks will fail.")
+    logger.warning("Ubuntu SSH credentials are not set. Ubuntu remediation tasks will fail.")
 
 app = FastAPI(title="Security Orchestrator API")
 
@@ -49,28 +50,29 @@ async def root():
 
 @app.post("/api/orchestrate")
 async def orchestrate(request: OrchestrationRequest):
-    print(f"Received request: {request}")
+    logger.info(f"AUDIT - Received orchestration request: {request}")
     try:
         if request.question:
-            print(f"Handling question: {request.question}")
+            logger.info(f"AUDIT - Handling Natural Language Question: {request.question}")
             from crew import create_chat_crew
             crew = create_chat_crew(request.question)
         else:
-            print(f"Investigating {request.indicator_type}: {request.indicator}")
+            logger.info(f"AUDIT - Investigating {request.indicator_type}: {request.indicator}")
             crew = create_security_crew(request.indicator, request.indicator_type)
             
         result = crew.kickoff()
-        print("Orchestration complete.")
+        logger.info("AUDIT - Orchestration cycle complete.")
+        logger.info(f"AUDIT - FINAL OUTPUT: {str(result)}")
         
         return {
             "status": "success",
             "result": str(result)
         }
     except Exception as e:
-        print(f"Error during orchestration: {str(e)}")
+        logger.error(f"AUDIT - Error during orchestration: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
     import uvicorn
-    print("Starting Security Orchestrator Backend on port 8000...")
+    logger.info("Starting Security Orchestrator Backend on port 8000...")
     uvicorn.run(app, host="0.0.0.0", port=8000)

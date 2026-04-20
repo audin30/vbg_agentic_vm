@@ -7,6 +7,7 @@ import paramiko
 from crewai.tools import BaseTool
 from typing import Type
 from pydantic import BaseModel, Field
+from logger_config import logger
 
 class IndicatorSchema(BaseModel):
     indicator: str = Field(..., description="The IP address, domain, hostname, file hash, or CVE ID to investigate.")
@@ -18,6 +19,7 @@ class ThreatIntelTool(BaseTool):
     args_schema: Type[BaseModel] = IndicatorSchema
 
     def _run(self, indicator: str, type: str) -> str:
+        logger.info(f"TOOL - Running ThreatIntelTool for {type}: {indicator}")
         try:
             # ti-master-enricher supports ip, domain, and hash
             script_path = os.path.join(os.getcwd(), "..", "ti-master-enricher", "scripts", "enrich_master.cjs")
@@ -27,10 +29,13 @@ class ThreatIntelTool(BaseTool):
                 text=True,
                 check=True
             )
+            logger.info(f"TOOL - ThreatIntelTool output received for {indicator}")
             return result.stdout
         except subprocess.CalledProcessError as e:
+            logger.error(f"TOOL - ThreatIntelTool error for {indicator}: {e.stderr}")
             return f"Error executing threat intel enricher: {e.stderr}"
         except Exception as e:
+            logger.error(f"TOOL - ThreatIntelTool unexpected error for {indicator}: {str(e)}")
             return f"An unexpected error occurred: {str(e)}"
 
 class VulnerabilityValidatorTool(BaseTool):
@@ -39,21 +44,23 @@ class VulnerabilityValidatorTool(BaseTool):
     args_schema: Type[BaseModel] = IndicatorSchema
 
     def _run(self, indicator: str, type: str) -> str:
+        logger.info(f"TOOL - Running VulnerabilityValidatorTool for {indicator}")
         try:
             # This tool is used when type is 'cve'
             script_path = os.path.join(os.getcwd(), "..", "vulnerability-validator", "scripts", "scan_vuln.cjs")
-            # For CVEs, the script might need specific target info; 
-            # for now, we pass the indicator as the target to scan for that vuln.
             result = subprocess.run(
                 ["node", script_path, indicator],
                 capture_output=True,
                 text=True,
                 check=True
             )
+            logger.info(f"TOOL - VulnerabilityValidatorTool output received for {indicator}")
             return result.stdout
         except subprocess.CalledProcessError as e:
+            logger.error(f"TOOL - VulnerabilityValidatorTool error for {indicator}: {e.stderr}")
             return f"Error executing vulnerability validator: {e.stderr}"
         except Exception as e:
+            logger.error(f"TOOL - VulnerabilityValidatorTool unexpected error for {indicator}: {str(e)}")
             return f"An unexpected error occurred: {str(e)}"
 
 class SecurityPrioritizerTool(BaseTool):
@@ -153,8 +160,10 @@ class SecurityPrioritizerTool(BaseTool):
             cur.close()
             conn.close()
             
+            logger.info(f"TOOL - SecurityPrioritizerTool retrieved {len(results)} findings.")
             return json.dumps(results, indent=2, default=str)
         except Exception as e:
+            logger.error(f"TOOL - SecurityPrioritizerTool DB Error: {str(e)}")
             return f"Error querying database: {str(e)}"
 
 class EmailReportSchema(BaseModel):
@@ -168,6 +177,7 @@ class EmailReporterTool(BaseTool):
     args_schema: Type[BaseModel] = EmailReportSchema
 
     def _run(self, subject: str, content: str, recipient: str) -> str:
+        logger.info(f"TOOL - Sending Email Report to {recipient}: {subject}")
         try:
             script_path = os.path.join(os.getcwd(), "..", "asset-email-reporter", "scripts", "send_email.cjs")
             result = subprocess.run(
@@ -176,10 +186,13 @@ class EmailReporterTool(BaseTool):
                 text=True,
                 check=True
             )
+            logger.info(f"TOOL - Email successfully sent to {recipient}")
             return result.stdout
         except subprocess.CalledProcessError as e:
+            logger.error(f"TOOL - Email delivery failed for {recipient}: {e.stderr}")
             return f"Error sending email: {e.stderr}"
         except Exception as e:
+            logger.error(f"TOOL - Email delivery unexpected error for {recipient}: {str(e)}")
             return f"An unexpected error occurred: {str(e)}"
 
 class RemediationSchema(BaseModel):
@@ -193,11 +206,13 @@ class WindowsRemediationTool(BaseTool):
     args_schema: Type[BaseModel] = RemediationSchema
 
     def _run(self, target_ip: str, kb_id: str, reboot_allowed: bool = False) -> str:
+        logger.info(f"TOOL - Running WindowsRemediationTool for {target_ip} (KB: {kb_id})")
         user = os.getenv("WINRM_USER")
         password = os.getenv("WINRM_PASSWORD")
         transport = os.getenv("WINRM_TRANSPORT", "ntlm")
 
         if not user or not password:
+            logger.error("TOOL - WindowsRemediationTool: Missing WinRM credentials.")
             return "Error: WINRM_USER or WINRM_PASSWORD not set in environment."
 
         try:
@@ -223,11 +238,14 @@ class WindowsRemediationTool(BaseTool):
             error = result.std_err.decode('utf-8')
             
             if result.status_code == 0:
+                logger.info(f"TOOL - WindowsRemediationTool SUCCESS for {target_ip}")
                 return f"Successfully executed remediation on {target_ip}:\n{output}"
             else:
+                logger.error(f"TOOL - WindowsRemediationTool FAILED for {target_ip} (Code {result.status_code})")
                 return f"Error executing remediation on {target_ip} (Code: {result.status_code}):\n{error}\nOutput:\n{output}"
                 
         except Exception as e:
+            logger.error(f"TOOL - WindowsRemediationTool unexpected error for {target_ip}: {str(e)}")
             return f"An unexpected error occurred during WinRM session: {str(e)}"
 
 class MacOSRemediationSchema(BaseModel):
@@ -241,6 +259,7 @@ class MacOSRemediationTool(BaseTool):
     args_schema: Type[BaseModel] = MacOSRemediationSchema
 
     def _run(self, target_ip: str, update_label: str, force_reboot: bool = False) -> str:
+        logger.info(f"TOOL - Running MacOSRemediationTool for {target_ip} (Update: {update_label})")
         try:
             user = os.getenv("MACOS_SSH_USER")
             key_path = os.getenv("MACOS_SSH_KEY_PATH")
@@ -259,32 +278,31 @@ class MacOSRemediationTool(BaseTool):
             list_output = stdout.read().decode('utf-8')
             if update_label not in list_output:
                 ssh.close()
+                logger.error(f"TOOL - MacOSRemediationTool: Update {update_label} not found on {target_ip}")
                 return f"ERROR: Update label '{update_label}' not found in available updates.\nList: {list_output}"
             
             # 2. Execute installation
-            # Note: softwareupdate requires sudo for installation. 
-            # This logic assumes the user has NOPASSWD sudo access for softwareupdate.
             reboot_flag = "--restart" if force_reboot else ""
             cmd = f"sudo softwareupdate --install \"{update_label}\" {reboot_flag}"
             
             stdin, stdout, stderr = ssh.exec_command(cmd)
-            # Paramiko's exec_command doesn't handle interactive sudo well; 
-            # if a password is required, this will fail or hang.
             
             exit_status = stdout.channel.recv_exit_status()
             out = stdout.read().decode('utf-8')
             err = stderr.read().decode('utf-8')
             ssh.close()
             
-            if "Restart Required" in out or "must be restarted" in out:
-                return f"RESTART_REQUIRED: Update installed but asset requires a reboot.\nOutput: {out}"
-            
             if exit_status == 0:
+                logger.info(f"TOOL - MacOSRemediationTool SUCCESS for {target_ip}")
+                if "Restart Required" in out or "must be restarted" in out:
+                    return f"RESTART_REQUIRED: Update installed but asset requires a reboot.\nOutput: {out}"
                 return f"SUCCESS: macOS Update '{update_label}' installed.\nOutput: {out}"
             else:
+                logger.error(f"TOOL - MacOSRemediationTool FAILED for {target_ip} (Status {exit_status})")
                 return f"FAILED: Exit Status {exit_status}.\nError: {err}\nOutput: {out}"
                 
         except Exception as e:
+            logger.error(f"TOOL - MacOSRemediationTool unexpected error for {target_ip}: {str(e)}")
             return f"ERROR: SSH Connection or macOS execution failed: {str(e)}"
 
 class UbuntuRemediationSchema(BaseModel):
@@ -298,6 +316,7 @@ class UbuntuRemediationTool(BaseTool):
     args_schema: Type[BaseModel] = UbuntuRemediationSchema
 
     def _run(self, target_ip: str, package_name: str, force_reboot: bool = False) -> str:
+        logger.info(f"TOOL - Running UbuntuRemediationTool for {target_ip} (Package: {package_name})")
         try:
             user = os.getenv("UBUNTU_SSH_USER")
             key_path = os.getenv("UBUNTU_SSH_KEY_PATH")
@@ -315,7 +334,6 @@ class UbuntuRemediationTool(BaseTool):
             ssh.exec_command("sudo apt-get update")
             
             # 2. Execute installation
-            # --only-upgrade ensures we don't install new packages
             cmd = f"sudo apt-get install --only-upgrade -y {package_name}"
             stdin, stdout, stderr = ssh.exec_command(cmd)
             
@@ -325,12 +343,14 @@ class UbuntuRemediationTool(BaseTool):
             
             if exit_status != 0:
                 ssh.close()
+                logger.error(f"TOOL - UbuntuRemediationTool FAILED for {target_ip} (Status {exit_status})")
                 return f"FAILED: Status {exit_status}.\nError: {err}\nOutput: {out}"
             
             # 3. Check for reboot required
             _, stdout_reboot, _ = ssh.exec_command("[ -f /var/run/reboot-required ] && echo 'YES' || echo 'NO'")
             reboot_needed = stdout_reboot.read().decode('utf-8').strip() == 'YES'
             
+            logger.info(f"TOOL - UbuntuRemediationTool SUCCESS for {target_ip}")
             if reboot_needed and force_reboot:
                 ssh.exec_command("sudo reboot")
                 ssh.close()
@@ -344,6 +364,7 @@ class UbuntuRemediationTool(BaseTool):
             return f"SUCCESS: Package '{package_name}' updated."
                 
         except Exception as e:
+            logger.error(f"TOOL - UbuntuRemediationTool unexpected error for {target_ip}: {str(e)}")
             return f"ERROR: SSH Connection or Ubuntu execution failed: {str(e)}"
 
 class KaliCommandSchema(BaseModel):
@@ -355,6 +376,7 @@ class KaliOffensiveTool(BaseTool):
     args_schema: Type[BaseModel] = KaliCommandSchema
 
     def _run(self, command: str) -> str:
+        logger.info(f"TOOL - Running KaliOffensiveTool command: {command}")
         try:
             user = os.getenv("KALI_SSH_USER")
             host = os.getenv("KALI_SSH_HOST")
@@ -362,6 +384,7 @@ class KaliOffensiveTool(BaseTool):
             passphrase = os.getenv("KALI_SSH_PASSPHRASE")
 
             if not user or not host or not key_path:
+                logger.error("TOOL - KaliOffensiveTool: Missing SSH configuration.")
                 return "ERROR: KALI_SSH_USER, KALI_SSH_HOST, or KALI_SSH_KEY_PATH not set in environment."
             
             ssh = paramiko.SSHClient()
@@ -377,7 +400,9 @@ class KaliOffensiveTool(BaseTool):
             err = stderr.read().decode('utf-8')
             ssh.close()
             
+            logger.info(f"TOOL - KaliOffensiveTool command complete (Status {exit_status})")
             return f"COMMAND_OUTPUT (Exit {exit_status}):\n{out}\nERRORS:\n{err}"
                 
         except Exception as e:
+            logger.error(f"TOOL - KaliOffensiveTool unexpected error: {str(e)}")
             return f"ERROR: Kali SSH connection or execution failed: {str(e)}"
