@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from crewai import Agent, Task, Crew, Process, LLM
-from tools import ThreatIntelTool, SecurityPrioritizerTool, EmailReporterTool, VulnerabilityValidatorTool, WindowsRemediationTool, MacOSRemediationTool, UbuntuRemediationTool
+from tools import ThreatIntelTool, SecurityPrioritizerTool, EmailReporterTool, VulnerabilityValidatorTool, WindowsRemediationTool, MacOSRemediationTool, UbuntuRemediationTool, KaliOffensiveTool
 
 load_dotenv()
 
@@ -27,11 +27,12 @@ researcher = Agent(
 
 vulnerability_specialist = Agent(
     role='Vulnerability Validation Specialist',
-    goal='Validate specific CVEs and vulnerabilities to confirm their exploitability',
-    backstory="""You are an expert in vulnerability research and active scanning. 
-    You use specialized tools like Nuclei and Nmap to confirm if a specific CVE 
-    actually poses a risk to the target infrastructure.""",
-    tools=[VulnerabilityValidatorTool()],
+    goal='Validate specific CVEs and vulnerabilities to confirm their exploitability using automated scans and manual Kali tools',
+    backstory="""You are an elite offensive security specialist. Beyond simple automated scanning, 
+    you have access to a full Kali Linux environment. You can use Metasploit, Searchsploit, 
+    Nikto, and other industry-standard tools to definitively prove if a vulnerability 
+    exists and assess its impact on the target system.""",
+    tools=[VulnerabilityValidatorTool(), KaliOffensiveTool()],
     llm=gemini_llm,
     verbose=True,
     allow_delegation=False

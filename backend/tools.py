@@ -345,3 +345,39 @@ class UbuntuRemediationTool(BaseTool):
                 
         except Exception as e:
             return f"ERROR: SSH Connection or Ubuntu execution failed: {str(e)}"
+
+class KaliCommandSchema(BaseModel):
+    command: str = Field(..., description="The full shell command to execute on the Kali Linux host (e.g., 'msfconsole -q -x \"search cve:2024-38140; exit\"').")
+
+class KaliOffensiveTool(BaseTool):
+    name: str = "kali_offensive_tool"
+    description: str = "Execute offensive security commands (Metasploit, Searchsploit, Nikto, etc.) on a remote Kali Linux host via SSH."
+    args_schema: Type[BaseModel] = KaliCommandSchema
+
+    def _run(self, command: str) -> str:
+        try:
+            user = os.getenv("KALI_SSH_USER")
+            host = os.getenv("KALI_SSH_HOST")
+            key_path = os.getenv("KALI_SSH_KEY_PATH")
+            passphrase = os.getenv("KALI_SSH_PASSPHRASE")
+
+            if not user or not host or not key_path:
+                return "ERROR: KALI_SSH_USER, KALI_SSH_HOST, or KALI_SSH_KEY_PATH not set in environment."
+            
+            ssh = paramiko.SSHClient()
+            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            
+            key = paramiko.RSAKey.from_private_key_file(key_path, password=passphrase)
+            ssh.connect(hostname=host, username=user, pkey=key, timeout=60)
+            
+            stdin, stdout, stderr = ssh.exec_command(command)
+            
+            exit_status = stdout.channel.recv_exit_status()
+            out = stdout.read().decode('utf-8')
+            err = stderr.read().decode('utf-8')
+            ssh.close()
+            
+            return f"COMMAND_OUTPUT (Exit {exit_status}):\n{out}\nERRORS:\n{err}"
+                
+        except Exception as e:
+            return f"ERROR: Kali SSH connection or execution failed: {str(e)}"
