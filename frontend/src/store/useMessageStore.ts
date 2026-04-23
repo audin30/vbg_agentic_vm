@@ -31,12 +31,18 @@ export const useMessageStore = create<MessageState>((set) => ({
   updateLastMessage: (tabId, query_id, contentChunk, isThought) => {
     set((state) => {
       const tabMessages = state.messages[tabId] || [];
-      // Look for the last message with the same query_id and isThought status
-      const lastMsgIndex = [...tabMessages].reverse().findIndex(
-        (m) => m.query_id === query_id && m.isThought === isThought && m.role === 'assistant'
-      );
+      
+      // Efficiently find the last message matching the criteria by searching backwards
+      let actualIndex = -1;
+      for (let i = tabMessages.length - 1; i >= 0; i--) {
+        const m = tabMessages[i];
+        if (m.query_id === query_id && m.isThought === isThought && m.role === 'assistant') {
+          actualIndex = i;
+          break;
+        }
+      }
 
-      if (lastMsgIndex === -1) {
+      if (actualIndex === -1) {
         // Create new assistant message if none exists for this query_id/type
         const newMessage: Message = {
           id: Math.random().toString(36).substring(7),
@@ -55,7 +61,6 @@ export const useMessageStore = create<MessageState>((set) => ({
       }
 
       // Update existing message
-      const actualIndex = tabMessages.length - 1 - lastMsgIndex;
       const updatedMessages = [...tabMessages];
       updatedMessages[actualIndex] = {
         ...updatedMessages[actualIndex],
