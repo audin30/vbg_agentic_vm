@@ -19,6 +19,7 @@ export const useStreamingResponse = (tabId: string) => {
   }, []);
 
   const stream = async (query: string, options: { indicator?: string, indicator_type?: string } = {}) => {
+    let accumulatedContent = '';
     // Abort existing connection if any
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
@@ -51,8 +52,9 @@ export const useStreamingResponse = (tabId: string) => {
             updateLastMessage(tabId, query_id, ev.data, false);
           }
 
-          // Parse and add evidence
-          const indicators = parseIndicators(ev.data);
+          // Accumulate content and parse to avoid missing indicators split across chunks
+          accumulatedContent += ev.data || '';
+          const indicators = parseIndicators(accumulatedContent);
           indicators.forEach((indicator) => {
             addEvidence(tabId, indicator);
           });
