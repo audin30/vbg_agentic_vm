@@ -12,6 +12,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from pydantic import BaseModel
 from typing import Optional
 from jose import JWTError, jwt
+import uuid
 
 # Security imports
 from auth import authenticate_user, create_access_token
@@ -74,6 +75,19 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
         raise HTTPException(status_code=401, detail="Incorrect username or password")
     access_token = create_access_token(data={"sub": user})
     return {"access_token": access_token, "token_type": "bearer"}
+
+@app.get("/api/users/me/tabs")
+async def get_user_tabs(current_user: str = Depends(get_current_user)):
+    # Mock list of tabs for now
+    return [
+        {"id": "1", "title": "Main Dashboard", "isActive": True},
+        {"id": "2", "title": "Security Investigation", "isActive": False}
+    ]
+
+@app.post("/api/queries")
+async def create_query(current_user: str = Depends(get_current_user)):
+    query_id = str(uuid.uuid4())
+    return {"query_id": query_id}
 
 @app.post("/api/orchestrate")
 async def orchestrate(request: OrchestrationRequest, current_user: str = Depends(get_current_user)):
