@@ -1,0 +1,18 @@
+[Unit]
+Description=VBG Centralized Security Hub
+After=network.target
+
+[Service]
+User=vbg-hub
+Group=vbg-hub
+WorkingDirectory=/opt/vbg-hub
+EnvironmentFile=/opt/vbg-hub/backend/.env
+# Use the venv python to ensure dependencies are loaded
+ExecStart=/opt/vbg-hub/backend/venv/bin/python backend/main.py
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
