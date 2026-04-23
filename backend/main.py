@@ -6,10 +6,15 @@ load_dotenv()
 os.environ["GEMINI_API_VERSION"] = "v1"
 os.environ["GOOGLE_API_VERSION"] = "v1"
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from pydantic import BaseModel
 from typing import Optional
+from jose import JWTError, jwt
+
+# Security imports
+from auth import authenticate_user, create_access_token
 from crew import create_security_crew
 from logger_config import logger
 
@@ -28,6 +33,10 @@ if not os.getenv("MACOS_SSH_USER") or not os.getenv("MACOS_SSH_KEY_PATH"):
 if not os.getenv("UBUNTU_SSH_USER") or not os.getenv("UBUNTU_SSH_KEY_PATH"):
     logger.warning("Ubuntu SSH credentials are not set. Ubuntu remediation tasks will fail.")
 
+SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
 app = FastAPI(title="Security Orchestrator API")
 
 # Add CORS Middleware to allow Electron to talk to FastAPI
@@ -44,13 +53,31 @@ class OrchestrationRequest(BaseModel):
     indicator_type: Optional[str] = None # ip, domain, hash, cve
     question: Optional[str] = None
 
+async def get_current_user(token: str = Depends(oauth2_scheme)):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username: str = payload.get("sub")
+        if username is None:
+            raise HTTPException(status_code=401, detail="Invalid token")
+        return username
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid token")
+
 @app.get("/")
 async def root():
     return {"message": "Security Orchestrator API is running"}
 
+@app.post("/token")
+async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
+    user = authenticate_user(form_data.username, form_data.password)
+    if not user:
+        raise HTTPException(status_code=401, detail="Incorrect username or password")
+    access_token = create_access_token(data={"sub": user})
+    return {"access_token": access_token, "token_type": "bearer"}
+
 @app.post("/api/orchestrate")
-async def orchestrate(request: OrchestrationRequest):
-    logger.info(f"AUDIT - Received orchestration request: {request}")
+async def orchestrate(request: OrchestrationRequest, current_user: str = Depends(get_current_user)):
+    logger.info(f"AUDIT - User [{current_user}] requested orchestration: {request}")
     try:
         if request.question:
             logger.info(f"AUDIT - Handling Natural Language Question: {request.question}")
