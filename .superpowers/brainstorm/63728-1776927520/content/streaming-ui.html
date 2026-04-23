@@ -1,0 +1,42 @@
+<div class="mockup">
+  <div class="mockup-header">Streaming Response UI</div>
+  <div class="mockup-body" style="background: var(--bg-dark); padding: 20px;">
+    
+    <div style="background: var(--sidebar-bg); border: 1px solid var(--border); border-radius: 8px; padding: 15px; margin-bottom: 15px; max-width: 80%;">
+      <div style="font-size: 0.8em; color: var(--accent); margin-bottom: 5px; font-weight: bold;">
+        Thought Process
+      </div>
+      <div style="font-style: italic; color: #8b949e; font-size: 0.85em;">
+        Querying VirusTotal API for reputation data... <span class="cursor">|</span>
+      </div>
+    </div>
+
+    <div style="background: var(--bg-alt); border: 1px solid var(--border); border-radius: 8px; padding: 15px; max-width: 80%; align-self: flex-start;">
+      Analyzing findings... Based on the latest Pulse data, this IP is flagged for... <span class="cursor">|</span>
+    </div>
+
+  </div>
+</div>
+
+<style>
+.cursor {
+  display: inline-block;
+  width: 2px;
+  background: var(--accent);
+  margin-left: 2px;
+  animation: blink 1s infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+</style>
+
+<div class="section">
+  <h3>Streaming Implementation Strategy:</h3>
+  <ul>
+    <li><strong>Backend:</strong> Utilize FastAPI's <code>StreamingResponse</code> with Server-Sent Events (SSE) or WebSockets.</li>
+    <li><strong>Frontend:</strong> React hooks to consume the stream and update the local state incrementally.</li>
+    <li><strong>Visuals:</strong> Include a separate "Thought Trace" area that streams the agent's internal logic before/during the final answer.</li>
+  </ul>
+</div>

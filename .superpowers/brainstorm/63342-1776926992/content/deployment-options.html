@@ -1,0 +1,24 @@
+<h2>Deployment Strategy: Docker vs. Bare Metal</h2>
+<p class="subtitle">Deciding how to host the Centralized Security Hub on your dedicated virtual server</p>
+
+<div class="options">
+  <div class="option" data-choice="docker" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Docker Compose (Planned)</h3>
+      <p>Self-contained units. Easy to manage PostgreSQL, FastAPI, and Node.js dependencies without polluting the host OS. Portable and reproducible.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="bare-metal" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Bare Metal / Systemd</h3>
+      <p>Run FastAPI and PostgreSQL directly on the host OS. Lower overhead, simpler networking for SSH/LDAP, but requires manual OS-level dependency management (Node, Python versions).</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Key Question for you:</h3>
+  <p>Since we're on a dedicated virtual server, do you have a preference for keeping the host "clean" (Docker) or do you prefer the direct access and performance of running services directly on the OS?</p>
+</div>
