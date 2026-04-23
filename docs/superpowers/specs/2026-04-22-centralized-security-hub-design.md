@@ -15,13 +15,16 @@ The system will be deployed as a containerized stack using Docker Compose on a c
 - **FastAPI Gateway (The Brain):** The primary entry point that manages user sessions and orchestrates the CrewAI agents.
 - **CrewAI Orchestrator:** Maintains agent personas and handles task delegation.
 - **Node.js Skill Runners:** Executes the `.skill` scripts (Nmap, VT, etc.) within the server's network context.
+- **Remote Kali Node (The Muscle):** A dedicated, separate Kali Linux instance (VM) used by the Offensive Specialist agent via SSH for heavy lifting (Metasploit, Nikto, etc.).
 - **PostgreSQL Database:** Acts as the persistent "Memory" and "Audit Trail" for the entire system.
 
 ### 2.2 Data Flow
 1. **Request:** Staff member submits an investigation request via the Web UI.
 2. **Identification:** FastAPI attaches a `user_id` to the request for auditing.
 3. **Orchestration:** CrewAI agents determine the necessary steps (e.g., "Researcher looks up IP", "Specialist runs scan").
-4. **Execution:** Skill scripts run from the central server. External API keys are pulled from the server's environment.
+4. **Execution:** 
+    - Recon/OSINT skills run locally on the Hub.
+    - Offensive validation and exploitation tasks are offloaded to the **Remote Kali Node** via SSH.
 5. **Persistence:** Findings and agent reasoning are stored in PostgreSQL.
 6. **Response:** Results are streamed back to the staff member and archived in the searchable audit log.
 
