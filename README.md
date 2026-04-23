@@ -130,3 +130,20 @@ Copy `backend/.env.example` to `backend/.env` and provide your API keys:
 2.  **API-Driven Orchestration**: The backend exposes a `/api/orchestrate` endpoint that uses CrewAI agents to perform multi-step security investigations and remediation.
 
 For detailed development workflows, see [GEMINI.md](GEMINI.md).
+
+---
+
+## 🗺️ Roadmap: Centralized Security Hub
+
+We are currently transitioning from a local-first deployment to a **Centralized Internal Security Hub**. This will enable multi-user access, shared audit trails, and consistent network probing.
+
+### Planned Enhancements
+- **Dockerized Deployment:** Containerizing the FastAPI "Brain", CrewAI Agents, and Skill Runtimes.
+- **Shared Knowledge Base:** Utilizing PostgreSQL for persistent knowledge caching and cross-analyst collaboration.
+- **Multi-user Portal:** A centralized web interface for staff to initiate and monitor investigations.
+- **Audit & Governance:** Comprehensive logging of all agent actions and tool executions for compliance.
+
+### Documentation
+- [Centralized Design Spec](docs/superpowers/specs/2026-04-22-centralized-security-hub-design.md)
+- [Centralized Architecture Diagram (HTML)](centralized_architecture.html)
+- [Original Architecture Diagram (HTML)](architecture.html)
