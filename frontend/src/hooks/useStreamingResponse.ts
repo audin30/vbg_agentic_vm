@@ -1,9 +1,12 @@
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { useMessageStore } from '../store/useMessageStore';
+import { useEvidenceStore } from '../store/useEvidenceStore';
+import { parseIndicators } from '../utils/evidenceParser';
 import { useRef, useEffect } from 'react';
 
 export const useStreamingResponse = (tabId: string) => {
   const updateLastMessage = useMessageStore((state) => state.updateLastMessage);
+  const addEvidence = useEvidenceStore((state) => state.addEvidence);
   const abortControllerRef = useRef<AbortController | null>(null);
 
   // Cleanup on unmount
@@ -47,6 +50,12 @@ export const useStreamingResponse = (tabId: string) => {
             // Default to main message if event is 'message' or missing
             updateLastMessage(tabId, query_id, ev.data, false);
           }
+
+          // Parse and add evidence
+          const indicators = parseIndicators(ev.data);
+          indicators.forEach((indicator) => {
+            addEvidence(tabId, indicator);
+          });
         },
         onerror(err) {
           if (err instanceof Error && err.name === 'AbortError') {
