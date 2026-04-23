@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import TabBar from './TabBar';
+import EvidenceList from './EvidenceList';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isEvidencePanelOpen, setIsEvidencePanelOpen] = useState(true);
@@ -54,9 +55,11 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         >
           {isEvidencePanelOpen ? '>' : '<'}
         </button>
-        <div style={{ padding: '1rem', width: '300px' }}>
-          <h3 style={{ margin: 0 }}>Evidence Panel</h3>
-          <div style={{ marginTop: '1rem', color: '#8b949e', fontSize: '0.9rem' }}>Collected artifacts will appear here.</div>
+        <div style={{ padding: '1rem', width: '300px', display: 'flex', flexDirection: 'column', height: '100%' }}>
+          <h3 style={{ margin: 0, paddingBottom: '1rem', borderBottom: '1px solid var(--border)' }}>Evidence Panel</h3>
+          <div style={{ flex: 1, overflowY: 'auto' }}>
+             <EvidenceList />
+          </div>
         </div>
       </aside>
     </div>
