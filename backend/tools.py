@@ -13,14 +13,24 @@ class IndicatorSchema(BaseModel):
     indicator: str = Field(..., description="The IP address, domain, hostname, file hash, or CVE ID to investigate.")
     type: str = Field(..., description="The type of indicator (ip, domain, hash, cve).")
 
+import asyncio
+from database.db_helper import db
+
 class ThreatIntelTool(BaseTool):
     name: str = "threat_intel_enricher"
     description: str = "Enrich an IP, domain, or file hash using multiple threat intelligence sources (VT, GreyNoise, OTX) and get a consensus score."
     args_schema: Type[BaseModel] = IndicatorSchema
 
-    def _run(self, indicator: str, type: str) -> str:
+    async def _arun(self, indicator: str, type: str) -> str:
         logger.info(f"TOOL - Running ThreatIntelTool for {type}: {indicator}")
         try:
+            # 1. Check Knowledge Cache
+            cached = await db.get_cached_indicator(indicator)
+            if cached:
+                logger.info(f"TOOL - Cache HIT for {indicator}")
+                return json.dumps(cached, indent=2)
+
+            # 2. Run external lookup
             # ti-master-enricher supports ip, domain, and hash
             script_path = os.path.join(os.getcwd(), "..", "ti-master-enricher", "scripts", "enrich_master.cjs")
             result = subprocess.run(
@@ -29,14 +39,28 @@ class ThreatIntelTool(BaseTool):
                 text=True,
                 check=True
             )
+            
+            output = result.stdout
+            try:
+                # Attempt to parse as JSON for caching
+                result_json = json.loads(output)
+                await db.cache_indicator(indicator, type, result_json)
+            except Exception as ce:
+                logger.warning(f"TOOL - Failed to cache result for {indicator}: {str(ce)}")
+
             logger.info(f"TOOL - ThreatIntelTool output received for {indicator}")
-            return result.stdout
+            return output
         except subprocess.CalledProcessError as e:
             logger.error(f"TOOL - ThreatIntelTool error for {indicator}: {e.stderr}")
             return f"Error executing threat intel enricher: {e.stderr}"
         except Exception as e:
             logger.error(f"TOOL - ThreatIntelTool unexpected error for {indicator}: {str(e)}")
             return f"An unexpected error occurred: {str(e)}"
+
+    def _run(self, indicator: str, type: str) -> str:
+        # Fallback for sync execution if needed
+        return asyncio.run(self._arun(indicator, type))
+
 
 class VulnerabilityValidatorTool(BaseTool):
     name: str = "vulnerability_validator"
