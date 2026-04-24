@@ -1,15 +1,3 @@
 .env
 *.doc
 *.pdf
-venv/
-backend/venv/
-__pycache__/
-*.pyc
-node_modules/
-dist/
-.DS_Store
-.worktrees/
-.superpowers/
-logs/
-backend/.env
-/Users/secu/Desktop/Git/vbg_agentic_vm/backend
