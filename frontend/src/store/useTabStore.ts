@@ -16,7 +16,7 @@ interface TabState {
   updateTabState: (id: string, title: string, queryState: any) => Promise<void>;
 }
 
-export const useTabStore = create<TabState>((set, get) => ({
+export const useTabStore = create<TabState>((set) => ({
   tabs: [],
 
   fetchTabs: async () => {

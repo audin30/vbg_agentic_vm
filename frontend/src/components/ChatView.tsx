@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, memo } from 'react';
-import { useMessageStore, Message } from '../store/useMessageStore';
+import { useMessageStore, type Message } from '../store/useMessageStore';
 import { useStreamingResponse } from '../hooks/useStreamingResponse';
 import { Send, BrainCircuit, Shield, User } from 'lucide-react';
 
