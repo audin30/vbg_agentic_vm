@@ -11,3 +11,4 @@ dist/
 .worktrees/
 .superpowers/
 logs/
+backend/.env
