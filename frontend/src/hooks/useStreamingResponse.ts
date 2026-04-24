@@ -1,12 +1,16 @@
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { useMessageStore } from '../store/useMessageStore';
 import { useEvidenceStore } from '../store/useEvidenceStore';
+import { useTabStore } from '../store/useTabStore';
 import { parseIndicators } from '../utils/evidenceParser';
 import { useRef, useEffect } from 'react';
 
 export const useStreamingResponse = (tabId: string) => {
   const updateLastMessage = useMessageStore((state) => state.updateLastMessage);
   const addEvidence = useEvidenceStore((state) => state.addEvidence);
+  const updateTabState = useTabStore((state) => state.updateTabState);
+  const getTab = (id: string) => useTabStore.getState().tabs.find(t => t.id === id);
+  
   const abortControllerRef = useRef<AbortController | null>(null);
 
   // Cleanup on unmount
@@ -27,7 +31,7 @@ export const useStreamingResponse = (tabId: string) => {
     
     abortControllerRef.current = new AbortController();
     const query_id = Math.random().toString(36).substring(7);
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem('token'); // Fixed key from access_token to token
 
     try {
       await fetchEventSource('http://localhost:8000/api/orchestrate', {
@@ -42,22 +46,27 @@ export const useStreamingResponse = (tabId: string) => {
         }),
         signal: abortControllerRef.current.signal,
         onmessage(ev) {
-          // Handle different event types
-          // event: 'thought' -> ev.data is a chunk of the thought process
-          // event: 'message' -> ev.data is a chunk of the final response
           if (ev.event === 'thought') {
             updateLastMessage(tabId, query_id, ev.data, true);
           } else if (ev.event === 'message' || !ev.event) {
-            // Default to main message if event is 'message' or missing
             updateLastMessage(tabId, query_id, ev.data, false);
           }
 
-          // Accumulate content and parse to avoid missing indicators split across chunks
           accumulatedContent += ev.data || '';
           const indicators = parseIndicators(accumulatedContent);
           indicators.forEach((indicator) => {
             addEvidence(tabId, indicator);
           });
+        },
+        onclose() {
+          console.log('Stream finished, saving state...');
+          const tab = getTab(tabId);
+          if (tab) {
+            // Save state to backend
+            const messages = useMessageStore.getState().messages[tabId] || [];
+            const evidence = useEvidenceStore.getState().evidence[tabId] || [];
+            updateTabState(tabId, tab.title, { messages, evidence });
+          }
         },
         onerror(err) {
           if (err instanceof Error && err.name === 'AbortError') {
@@ -65,7 +74,6 @@ export const useStreamingResponse = (tabId: string) => {
             return;
           }
           console.error('SSE Error:', err);
-          // fetch-event-source will automatically retry by default unless we throw
           throw err; 
         }
       });
