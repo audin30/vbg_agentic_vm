@@ -4,62 +4,95 @@ export interface Tab {
   id: string;
   title: string;
   isActive: boolean;
+  queryState?: any;
 }
 
 interface TabState {
   tabs: Tab[];
-  addTab: (tab: Omit<Tab, 'isActive'>) => void;
-  removeTab: (id: string) => void;
+  fetchTabs: () => Promise<void>;
+  addTab: (tab: Omit<Tab, 'isActive'>) => Promise<void>;
+  removeTab: (id: string) => Promise<void>;
   setActiveTab: (id: string) => void;
+  updateTabState: (id: string, title: string, queryState: any) => Promise<void>;
 }
 
-export const useTabStore = create<TabState>((set) => ({
+export const useTabStore = create<TabState>((set, get) => ({
   tabs: [],
 
-  addTab: (tab) => {
-    set((state) => {
-      // Deactivate all existing tabs
-      const deactivatedTabs = state.tabs.map((t) => ({ ...t, isActive: false }));
-      // Check if tab already exists to avoid duplicates
-      const exists = state.tabs.some((t) => t.id === tab.id);
-      
-      if (exists) {
-        // If it exists, just make it active
-        return {
-          tabs: state.tabs.map((t) => ({
-            ...t,
-            isActive: t.id === tab.id,
-          })),
-        };
+  fetchTabs: async () => {
+    try {
+      const response = await fetch('/api/users/me/tabs', {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      });
+      if (response.ok) {
+        const tabs = await response.json();
+        // Backend uses query_state, frontend uses queryState
+        const formattedTabs = tabs.map((t: any) => ({
+          id: t.id,
+          title: t.title,
+          isActive: t.is_active,
+          queryState: t.query_state ? JSON.parse(t.query_state) : {}
+        }));
+        set({ tabs: formattedTabs });
       }
-
-      return {
-        tabs: [...deactivatedTabs, { ...tab, isActive: true }],
-      };
-    });
+    } catch (error) {
+      console.error('Failed to fetch tabs:', error);
+    }
   },
 
-  removeTab: (id) => {
-    set((state) => {
-      const tabToRemove = state.tabs.find((t) => t.id === id);
-      if (!tabToRemove) return state;
-
-      const remainingTabs = state.tabs.filter((t) => t.id !== id);
+  addTab: async (tab) => {
+    try {
+      const response = await fetch('/api/queries', {
+        method: 'POST',
+        headers: { 
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        }
+      });
       
-      // If we removed the active tab, we must set a new active tab if available
-      if (tabToRemove.isActive && remainingTabs.length > 0) {
-        return {
-          tabs: remainingTabs.map((t, index) => ({
-            ...t,
-            isActive: index === 0, // Fallback to first available
-          })),
-        };
+      if (response.ok) {
+        const { query_id } = await response.json();
+        set((state) => {
+          const deactivatedTabs = state.tabs.map((t) => ({ ...t, isActive: false }));
+          return {
+            tabs: [...deactivatedTabs, { id: query_id, title: tab.title, isActive: true, queryState: {} }],
+          };
+        });
       }
+    } catch (error) {
+      console.error('Failed to create tab:', error);
+    }
+  },
 
-      return {
-        tabs: remainingTabs,
-      };
-    });
+  removeTab: async (id) => {
+    try {
+      await fetch(`/api/queries/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      });
+
+      set((state) => {
+        const tabToRemove = state.tabs.find((t) => t.id === id);
+        if (!tabToRemove) return state;
+
+        const remainingTabs = state.tabs.filter((t) => t.id !== id);
+        
+        if (tabToRemove.isActive && remainingTabs.length > 0) {
+          return {
+            tabs: remainingTabs.map((t, index) => ({
+              ...t,
+              isActive: index === 0,
+            })),
+          };
+        }
+
+        return {
+          tabs: remainingTabs,
+        };
+      });
+    } catch (error) {
+      console.error('Failed to remove tab:', error);
+    }
   },
 
   setActiveTab: (id) => {
@@ -70,4 +103,25 @@ export const useTabStore = create<TabState>((set) => ({
       })),
     }));
   },
+
+  updateTabState: async (id, title, queryState) => {
+    try {
+      await fetch(`/api/queries/${id}`, {
+        method: 'PUT',
+        headers: { 
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ title, query_state: queryState })
+      });
+
+      set((state) => ({
+        tabs: state.tabs.map((t) => 
+          t.id === id ? { ...t, title, queryState } : t
+        ),
+      }));
+    } catch (error) {
+      console.error('Failed to update tab state:', error);
+    }
+  }
 }));
