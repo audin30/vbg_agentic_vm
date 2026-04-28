@@ -277,6 +277,8 @@ class MacOSRemediationSchema(BaseModel):
     update_label: str = Field(..., description="The specific software update label to install.")
     force_reboot: bool = Field(default=False, description="Whether to force a reboot if required (default is False).")
 
+import shlex
+
 class MacOSRemediationTool(BaseTool):
     name: str = "macos_remediation_tool"
     description: str = "Connect to a remote macOS asset via SSH and install a specific software update using softwareupdate."
@@ -307,7 +309,8 @@ class MacOSRemediationTool(BaseTool):
             
             # 2. Execute installation
             reboot_flag = "--restart" if force_reboot else ""
-            cmd = f"sudo softwareupdate --install \"{update_label}\" {reboot_flag}"
+            quoted_label = shlex.quote(update_label)
+            cmd = f"sudo softwareupdate --install {quoted_label} {reboot_flag}"
             
             stdin, stdout, stderr = ssh.exec_command(cmd)
             
@@ -358,7 +361,8 @@ class UbuntuRemediationTool(BaseTool):
             ssh.exec_command("sudo apt-get update")
             
             # 2. Execute installation
-            cmd = f"sudo apt-get install --only-upgrade -y {package_name}"
+            quoted_package = shlex.quote(package_name)
+            cmd = f"sudo apt-get install --only-upgrade -y {quoted_package}"
             stdin, stdout, stderr = ssh.exec_command(cmd)
             
             exit_status = stdout.channel.recv_exit_status()
@@ -394,13 +398,50 @@ class UbuntuRemediationTool(BaseTool):
 class KaliCommandSchema(BaseModel):
     command: str = Field(..., description="The full shell command to execute on the Kali Linux host (e.g., 'msfconsole -q -x \"search cve:2024-38140; exit\"').")
 
+class FeedbackQuerySchema(BaseModel):
+    target: str = Field(..., description="The target IP, domain, or CVE to check for historical human feedback.")
+
+class FeedbackQueryTool(BaseTool):
+    name: str = "feedback_query_tool"
+    description: str = "Query the internal database for historical human decisions (approved/denied) and feedback notes for a specific target. ALWAYS check this before proposing remediation."
+    args_schema: Type[BaseModel] = FeedbackQuerySchema
+
+    async def _arun(self, target: str) -> str:
+        logger.info(f"TOOL - Querying feedback for {target}")
+        try:
+            feedback = await db.get_feedback_for_target(target)
+            if not feedback:
+                return f"No historical human feedback found for target: {target}"
+            
+            summary = [f"Found {len(feedback)} feedback entries for {target}:"]
+            for f in feedback:
+                summary.append(f"- [{f['created_at']}] {f['username']} DECISION: {f['decision']} | NOTES: {f['feedback_notes']}")
+            
+            return "\n".join(summary)
+        except Exception as e:
+            logger.error(f"TOOL - FeedbackQueryTool error for {target}: {str(e)}")
+            return f"Error querying feedback database: {str(e)}"
+
+    def _run(self, target: str) -> str:
+        return asyncio.run(self._arun(target))
+
 class KaliOffensiveTool(BaseTool):
     name: str = "kali_offensive_tool"
-    description: str = "Execute offensive security commands (Metasploit, Searchsploit, Nikto, etc.) on a remote Kali Linux host via SSH."
+    description: str = "Execute offensive security commands (msfconsole, searchsploit, nikto) on a remote Kali Linux host via SSH."
     args_schema: Type[BaseModel] = KaliCommandSchema
 
     def _run(self, command: str) -> str:
         logger.info(f"TOOL - Running KaliOffensiveTool command: {command}")
+        
+        # Security: Validate command starts with authorized tool
+        allowed_tools = ["msfconsole", "searchsploit", "nikto", "nmap"]
+        parts = shlex.split(command)
+        if not parts or parts[0] not in allowed_tools:
+            return f"ERROR: Unauthorized tool. Allowed: {', '.join(allowed_tools)}"
+        
+        # Re-assemble safely
+        safe_command = " ".join(shlex.quote(p) for p in parts)
+        
         try:
             user = os.getenv("KALI_SSH_USER")
             host = os.getenv("KALI_SSH_HOST")
@@ -417,7 +458,7 @@ class KaliOffensiveTool(BaseTool):
             key = paramiko.RSAKey.from_private_key_file(key_path, password=passphrase)
             ssh.connect(hostname=host, username=user, pkey=key, timeout=60)
             
-            stdin, stdout, stderr = ssh.exec_command(command)
+            stdin, stdout, stderr = ssh.exec_command(safe_command)
             
             exit_status = stdout.channel.recv_exit_status()
             out = stdout.read().decode('utf-8')

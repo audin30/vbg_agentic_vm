@@ -2,8 +2,10 @@ import os
 import asyncio
 import asyncpg
 from dotenv import load_dotenv
+from passlib.context import CryptContext
 
 load_dotenv()
+pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
 async def init():
     conn = await asyncpg.connect(
@@ -17,14 +19,24 @@ async def init():
     with open("schema.sql", "r") as f:
         schema = f.read()
     
-    # Split schema into individual commands (very simple split for this case)
+    # Split schema into individual commands
     commands = schema.split(";")
     for cmd in commands:
         if cmd.strip():
             await conn.execute(cmd)
     
+    # Seed default local admin user
+    admin_user = "admin"
+    admin_pass = "password123" # In production, this should be changed immediately
+    hashed_pass = pwd_context.hash(admin_pass)
+    
+    await conn.execute(
+        "INSERT INTO local_users (username, hashed_password, full_name) VALUES ($1, $2, $3) ON CONFLICT (username) DO NOTHING",
+        admin_user, hashed_pass, "System Administrator"
+    )
+    
     await conn.close()
-    print("Database initialized successfully.")
+    print("Database initialized successfully with local admin fallback.")
 
 if __name__ == "__main__":
     asyncio.run(init())

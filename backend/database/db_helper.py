@@ -113,5 +113,37 @@ class DatabaseHelper:
                 tab_id, username
             )
 
+    async def save_feedback(self, username: str, action_type: str, target: str, decision: str, feedback_notes: Optional[str] = None):
+        if not self.pool:
+            await self.connect()
+        
+        async with self.pool.acquire() as conn:
+            await conn.execute(
+                "INSERT INTO agent_feedback (username, action_type, target, decision, feedback_notes) VALUES ($1, $2, $3, $4, $5)",
+                username, action_type, target, decision, feedback_notes
+            )
+
+    async def get_feedback_for_target(self, target: str):
+        if not self.pool:
+            await self.connect()
+        
+        async with self.pool.acquire() as conn:
+            rows = await conn.fetch(
+                "SELECT username, action_type, decision, feedback_notes, created_at FROM agent_feedback WHERE target = $1 ORDER BY created_at DESC",
+                target
+            )
+            return [dict(r) for r in rows]
+
+    async def get_local_user(self, username: str):
+        if not self.pool:
+            await self.connect()
+        
+        async with self.pool.acquire() as conn:
+            row = await conn.fetchrow(
+                "SELECT username, hashed_password, full_name FROM local_users WHERE username = $1",
+                username
+            )
+            return dict(row) if row else None
+
 # Global helper instance
 db = DatabaseHelper()

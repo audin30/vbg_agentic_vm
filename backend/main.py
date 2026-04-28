@@ -69,6 +69,12 @@ class TabUpdateRequest(BaseModel):
     title: str
     query_state: dict
 
+class FeedbackRequest(BaseModel):
+    action_type: str
+    target: str
+    decision: str
+    feedback_notes: Optional[str] = None
+
 async def get_current_user(token: str = Depends(oauth2_scheme)):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
@@ -85,7 +91,7 @@ async def root():
 
 @app.post("/token")
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
-    user = authenticate_user(form_data.username, form_data.password)
+    user = await authenticate_user(form_data.username, form_data.password)
     if not user:
         raise HTTPException(status_code=401, detail="Incorrect username or password")
     access_token = create_access_token(data={"sub": user})
@@ -110,6 +116,16 @@ async def update_query(tab_id: str, request: TabUpdateRequest, current_user: str
 async def delete_query(tab_id: str, current_user: str = Depends(get_current_user)):
     await db.close_user_tab(current_user, tab_id)
     return {"status": "success"}
+
+@app.post("/api/feedback")
+async def save_feedback(request: FeedbackRequest, current_user: str = Depends(get_current_user)):
+    await db.save_feedback(current_user, request.action_type, request.target, request.decision, request.feedback_notes)
+    return {"status": "success"}
+
+@app.get("/api/feedback/{target}")
+async def get_feedback(target: str, current_user: str = Depends(get_current_user)):
+    feedback = await db.get_feedback_for_target(target)
+    return feedback
 
 @app.post("/api/orchestrate")
 async def orchestrate(request: OrchestrationRequest, current_user: str = Depends(get_current_user)):

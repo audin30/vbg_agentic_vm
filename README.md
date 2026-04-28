@@ -1,149 +1,150 @@
-# 🤖 Gemini CLI: Security Orchestrator & TI Skills Workspace
+# 🤖 Gemini CLI: Centralized Internal Security Hub
 
-This project is a centralized repository for specialized **Gemini CLI Skills** and a **CrewAI-powered Backend Orchestrator** focused on security operations, threat intelligence, and automated remediation.
+This project is a centralized **Internal Security Hub** featuring a persistent React Web Portal and a CrewAI-powered Backend Orchestrator. It empowers security teams to correlate data, automate investigations, and execute remediation from a unified interface.
 
 ## 🏗️ Architecture
 
-The system bridges the gap between high-level agentic orchestration and low-level security tools through a modular "Skill" architecture.
+The system utilizes a 3-tier architecture for multi-user internal access.
 
 ```mermaid
 graph TD
-    subgraph "User Interface / Client"
-        User[Security Analyst / User]
-        CLI[Gemini CLI]
+    subgraph "Web Portal (React SPA)"
+        User[Security Analyst]
+        UI[Persistent Multi-tab Interface]
+        SSE[SSE Streaming Logic]
     end
 
-    subgraph "Backend Orchestration (Python / FastAPI)"
+    subgraph "Backend Orchestrator (Python / FastAPI)"
         API[FastAPI Server :8000]
+        Auth[LDAP / JWT Auth]
         Crew[CrewAI Orchestrator]
+        DB_Helper[Database Helper / Audit Logger]
         
         subgraph "Specialized Agents"
             TI_Agent[Threat Intel Researcher]
             VV_Agent[Vuln Validation Specialist]
             RA_Agent[Security Risk Analyst]
-            WR_Agent[Windows Remediation Specialist]
-            MR_Agent[macOS Remediation Specialist]
-            UR_Agent[Ubuntu Remediation Specialist]
+            WR_Agent[Remediation Specialists]
         end
     end
 
-    subgraph "Custom Tools & Wrappers (Python)"
-        Tool_TI[ThreatIntelTool]
-        Tool_VV[VulnerabilityValidatorTool]
-        Tool_SP[SecurityPrioritizerTool]
-        Tool_ER[EmailReporterTool]
-        Tool_WR[WindowsRemediationTool]
-        Tool_MR[MacOSRemediationTool]
-        Tool_UR[UbuntuRemediationTool]
+    subgraph "Data & Knowledge (PostgreSQL)"
+        PG[(Security DB)]
+        Audit[Identity-linked Audit Logs]
+        Cache[TI Knowledge Cache]
+        Tabs[User Active Queries / Tabs]
+        Findings[Vuln Findings: Tenable, Wiz, etc.]
+        Feedback[Agent Feedback / HITL Learning]
     end
 
-    subgraph "Gemini CLI Skills (Node.js Scripts)"
-        Skill_TI[ti-master-enricher]
-        Skill_VV[vulnerability-validator]
-        Skill_ER[asset-email-reporter]
-    end
-
-    subgraph "External Infrastructure & APIs"
-        PG[(PostgreSQL Database)]
-        APIs[Security APIs: VT, GreyNoise, OTX]
+    subgraph "External Nodes & APIs"
+        Kali[[Remote Kali Node - SSH]]
         WinTarget[[Windows Asset - WinRM]]
-        MacTarget[[macOS Asset - SSH]]
-        UbuTarget[[Ubuntu Asset - SSH]]
+        UnixTarget[[Linux/macOS Asset - SSH]]
+        APIs[Security APIs: VT, GreyNoise, OTX]
     end
 
     %% Interactions
-    User -->|Inquiry/Directive| CLI
-    CLI -->|API Request| API
+    User --> UI
+    UI -->|JWT Auth| API
+    UI -->|Feedback/HITL| API
+    API --> Auth
     API --> Crew
-    Crew --> TI_Agent & VV_Agent & RA_Agent & WR_Agent & MR_Agent & UR_Agent
-
-    %% Tool Bindings
-    TI_Agent --> Tool_TI
-    VV_Agent --> Tool_VV
-    RA_Agent --> Tool_SP & Tool_ER
-    WR_Agent --> Tool_WR
-    MR_Agent --> Tool_MR & Tool_ER
-    UR_Agent --> Tool_UR & Tool_ER
-
-    %% Tool Implementations
-    Tool_TI -->|subprocess| Skill_TI
-    Tool_VV -->|subprocess| Skill_VV
-    Tool_ER -->|subprocess| Skill_ER
+    Auth -->|LDAP| DC[[Domain Controller]]
+    Crew --> TI_Agent & VV_Agent & RA_Agent & WR_Agent
     
-    Tool_SP -->|psycopg2| PG
-    Tool_WR -->|winrm| WinTarget
-    Tool_MR -->|paramiko/SSH| MacTarget
-    Tool_UR -->|paramiko/SSH| UbuTarget
+    %% Storage
+    API --> DB_Helper
+    DB_Helper --> Audit & Cache & Tabs & Findings & Feedback
+
+    %% Tools
+    TI_Agent --> APIs
+    VV_Agent --> Kali
+    WR_Agent --> WinTarget & UnixTarget
+    TI_Agent & VV_Agent & RA_Agent & WR_Agent -->|Query Decisions| Feedback
 ```
 
 ---
 
-## 🚀 Featured Skills
+## 🌟 Key Features
 
-| Skill Name | Purpose | Key Data Sources |
-| :--- | :--- | :--- |
-| **`security-prioritizer`** | Correlates & ranks vulnerabilities based on risk. | Tenable, Wiz, CISA KEV, phpIPAM |
-| **`vulnerability-validator`** | Validates vulnerabilities via active scans. | Nuclei, Nmap |
-| **`ti-master-enricher`** | Orchestrates multi-source TI lookups (Consensus). | GreyNoise, OTX, VirusTotal |
-| **`virustotal-checker`** | Threat reputation for IPs and Domains. | VirusTotal API v3 |
-| **`greynoise-community`** | Identifies internet background noise/scanners. | GreyNoise Community API |
-| **`alienvault-otx`** | Checks indicators against threat pulses. | AlienVault OTX API |
-| **`chronicle-query`** | Queries SIEM events and detections. | Google Chronicle API |
-| **`rapid7-siem`** | Queries investigations and logs in InsightIDR. | Rapid7 InsightIDR |
-| **`talos-intelligence`** | Reputation lookups from Cisco Talos. | Talos Intelligence |
-| **`csv-writer`** | Exports JSON data to CSV files. | Local Node.js Script |
+- **Human-in-the-Loop (HITL) Feedback**: Capture analyst approvals/denials in real-time. Agents query this feedback before every action to learn and respect historical constraints.
+- **Hybrid Authentication**: Support for both **LDAP/Active Directory** and **Local User Fallback**. The system remains accessible via local admin even if domain controllers are unreachable.
+- **Persistent Multi-tab UI**: Investigations are saved to PostgreSQL and persist across sessions.
+- **Identity-linked Auditing**: Every agent action and tool execution is logged with the analyst's domain username.
+- **Automated Evidence Logic**: Real-time extraction of IPs, Domains, and Hashes from streaming responses.
+- **TI Knowledge Cache**: Shared 24-hour cache for threat intelligence lookups to reduce API costs and latency.
+- **Remote Remediation**: One-click remote patching for Windows (WinRM) and Linux (SSH).
+- **Offensive Offloading**: Automated execution of Metasploit and Searchsploit on a dedicated Kali node.
 
 ---
 
 ## ⚙️ Setup & Installation
 
-### 1. Backend Orchestrator (Python)
-Requires Python 3.12+.
+### 1. Prerequisites
+- **PostgreSQL**: Version 13+ (Uses `gen_random_uuid()`).
+- **Python**: 3.12+
+- **Node.js**: 20+
+
+### 2. Backend Installation
 ```bash
 cd backend
-python -m venv venv
+python3.12 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-python main.py
-```
-
-### 2. Gemini CLI Skills (Node.js)
-Requires Node.js and the Gemini CLI.
-```bash
-npm install
-# Install individual skills into the CLI
-gemini skills install ./<skill-name>.skill --scope user
+# Add asyncpg and crewai[google-genai]
+pip install asyncpg "crewai[google-genai]"
 ```
 
 ### 3. Environment Configuration
-Copy `backend/.env.example` to `backend/.env` and provide your API keys:
-- `GEMINI_API_KEY`: Core LLM orchestration.
-- `VIRUSTOTAL_API_KEY`, `GREYNOISE_API_KEY`, `OTX_API_KEY`: Threat Intelligence.
-- `CHRONICLE_CUSTOMER_ID`, `GOOGLE_APPLICATION_CREDENTIALS`: Chronicle SIEM.
-- `RAPID7_API_KEY`, `RAPID7_REGION`: Rapid7 InsightIDR.
-- `POSTGRES_*`: For the Security Prioritizer database.
-- `WINRM_*`, `MACOS_SSH_*`, `UBUNTU_SSH_*`: Credentials for automated remediation.
+Create `backend/.env` with the following:
+```bash
+# Core
+GEMINI_API_KEY=your_key_here
+
+# Database
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_DATABASE=security_db
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=your_password
+
+# Authentication
+LDAP_SERVER=ldap://your-domain-controller
+LDAP_BASE_DN=dc=example,dc=com
+LDAP_USER_DN_TEMPLATE=uid={username},ou=users,dc=example,dc=com
+JWT_SECRET_KEY=generate-a-secure-key-here
+
+# Security Tooling
+VIRUSTOTAL_API_KEY=...
+GREYNOISE_API_KEY=...
+OTX_API_KEY=...
+```
+
+### 4. Database Initialization
+```bash
+cd backend/database
+python init_db.py
+```
+
+### 5. Frontend Installation
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
 ## 🛠️ Usage
 
-1.  **Direct CLI Interaction**: Use natural language in the Gemini CLI to trigger specific skills (e.g., "Enrich IP 8.8.8.8").
-2.  **API-Driven Orchestration**: The backend exposes a `/api/orchestrate` endpoint that uses CrewAI agents to perform multi-step security investigations and remediation.
-
-For detailed development workflows, see [GEMINI.md](GEMINI.md).
+1.  **Access the Portal**: Open `http://localhost:5173` (default Vite port).
+2.  **Authenticate**: Use your Domain/LDAP credentials.
+3.  **Active Queries**: Start a "New Query" to initiate an agentic investigation. All progress is automatically saved.
+4.  **Evidence Drawer**: Click on extracted indicators in the right pane to drill down into specific TI data.
 
 ---
 
-## 🗺️ Roadmap: Centralized Security Hub
+## 🔒 Security & Privacy
 
-We are currently transitioning from a local-first deployment to a **Centralized Internal Security Hub**. This will enable multi-user access, shared audit trails, and consistent network probing.
-
-### Planned Enhancements
-- **Dockerized Deployment:** Containerizing the FastAPI "Brain", CrewAI Agents, and Skill Runtimes.
-- **Shared Knowledge Base:** Utilizing PostgreSQL for persistent knowledge caching and cross-analyst collaboration.
-- **Multi-user Portal:** A centralized web interface for staff to initiate and monitor investigations.
-- **Audit & Governance:** Comprehensive logging of all agent actions and tool executions for compliance.
-
-### Documentation
-- [Centralized Design Spec](docs/superpowers/specs/2026-04-22-centralized-security-hub-design.md)
-- [Centralized Architecture Diagram (HTML)](centralized_architecture.html)
-- [Original Architecture Diagram (HTML)](architecture.html)
+- **Sensitive Data Filter**: Automatically masks IPv4 last octets, email usernames, and API keys in audit logs and DB writes.
+- **Whitelisting**: All external probes originate from the Hub's static IP.
+- **Command Sanitization**: All remote execution commands (SSH/WinRM) are sanitized using `shlex` and `shlex.quote`.

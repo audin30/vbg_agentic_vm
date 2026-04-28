@@ -25,3 +25,22 @@ CREATE TABLE IF NOT EXISTS user_active_queries (
     is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Human-in-the-Loop Feedback
+CREATE TABLE IF NOT EXISTS agent_feedback (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    username TEXT NOT NULL,
+    action_type TEXT NOT NULL,          -- e.g., 'remediation', 'prioritization'
+    target TEXT NOT NULL,               -- e.g., '10.0.0.5', 'CVE-2024-1234'
+    decision TEXT NOT NULL,             -- 'approved', 'denied'
+    feedback_notes TEXT,                -- 'Do not patch this production server during business hours'
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Local Users Fallback
+CREATE TABLE IF NOT EXISTS local_users (
+    username TEXT PRIMARY KEY,
+    hashed_password TEXT NOT NULL,
+    full_name TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);

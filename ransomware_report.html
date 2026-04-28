@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body { font-family: sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 40px auto; padding: 20px; }
+h1 { color: #d32f2f; border-bottom: 2px solid #d32f2f; }
+h2 { color: #1976d2; margin-top: 30px; }
+table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+th { background-color: #f2f2f2; }
+.critical { color: #d32f2f; font-weight: bold; }
+</style>
+</head>
+<body>
+<h1>Ransomware Exposure & Priority Remediation Report</h1>
+<p><strong>Date:</strong> April 25, 2026<br>
+<strong>Scope:</strong> 224 Assets Vulnerable to Ransomware-Linked CVEs</p>
+
+<h2>Executive Summary</h2>
+<p>Analysis of 14.7 million vulnerabilities across 400,000 assets identifies <strong>224 assets</strong> with active "Known Ransomware Use" CVEs (per CISA KEV). Risk is concentrated in the on-premise infrastructure and remote access points.</p>
+
+<h2>1. High-Priority Infrastructure Exposure</h2>
+<table>
+<tr><th>Asset Hostname</th><th>IP Address</th><th>CVE</th><th>Vulnerability</th><th>Impact</th></tr>
+<tr><td>BETA-EXCHANGE</td><td>10.219.4.141</td><td>CVE-2021-26855</td><td>ProxyLogon</td><td>Initial Access / Data Theft</td></tr>
+<tr><td>SPREGEXC2019</td><td>10.219.19.227</td><td>CVE-2021-26855</td><td>ProxyLogon</td><td>Initial Access / Data Theft</td></tr>
+<tr><td>O-HV2008R2</td><td>10.19.100.81</td><td>CVE-2019-0708</td><td>BlueKeep</td><td>Wormable Lateral Movement</td></tr>
+<tr><td>HV8VM1</td><td>10.19.99.173</td><td>CVE-2019-0708</td><td>BlueKeep</td><td>Lateral Movement to Hosts</td></tr>
+</table>
+
+<h2>2. Direct Public Access Risks</h2>
+<table>
+<tr><th>Asset Name</th><th>Primary IP</th><th>Exposure Type</th><th>Vulnerability</th></tr>
+<tr class="critical"><td>amermacrx37fdw2hd</td><td>10.0.0.197</td><td>Public IP (Wiz)</td><td>Active CVE</td></tr>
+<tr class="critical"><td>carbon.local</td><td>192.168.1.20</td><td>Public IP (Azure)</td><td>Active CVE</td></tr>
+<tr class="critical"><td>Citrix Gateways</td><td>Multiple</td><td>Role-Based Public</td><td>Citrix Bleed</td></tr>
+</table>
+
+<h2>3. Remediation Recommendations</h2>
+<ol>
+<li><strong>Isolate & Patch Exchange:</strong> Prioritize the 10.219.x.x subnet.</li>
+<li><strong>Secure Remote Access:</strong> Remediation for Citrix Bleed (CVE-2023-4966) is critical.</li>
+<li><strong>Legacy Protocol Hardening:</strong> Disable SMBv1/RDP on 10.19.x.x subnet or protect with MFA/VPN.</li>
+</ol>
+</body>
+</html>
