@@ -1,19 +1,17 @@
 crewai
 langchain-core
-fastapi==0.136.0
-uvicorn==0.44.0
-psycopg2-binary==2.9.11
-pywinrm==0.5.0
-paramiko==4.0.0
-python-dotenv
+fastapi
+uvicorn
+psycopg2-binary
+pywinrm
+paramiko
 pydantic>=2.0.0
-litellm
-google-generativeai
 openai
-langsmith>=0.1.0
+langsmith
 chromadb
-
 python-jose[cryptography]
 passlib[bcrypt]
 ldap3
 python-multipart
+# We omit litellm, google-generativeai, and python-dotenv to let crewai 
+# resolve the best compatible versions automatically.
