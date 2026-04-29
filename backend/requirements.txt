@@ -1,4 +1,4 @@
-crewai
+crewai==1.14.2
 langchain-core
 fastapi
 uvicorn
@@ -13,5 +13,3 @@ python-jose[cryptography]
 passlib[bcrypt]
 ldap3
 python-multipart
-# We omit litellm, google-generativeai, and python-dotenv to let crewai 
-# resolve the best compatible versions automatically.
