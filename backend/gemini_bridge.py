@@ -41,17 +41,22 @@ class GeminiChatCLI(BaseChatModel):
         
         full_prompt = "\n".join(prompt_parts)
         
-        # We use --yolo to ensure it doesn't hang waiting for tool approvals
+        # We use --approval-mode yolo to ensure it doesn't hang waiting for tool approvals
         # and --output-format json to get structured results.
-        cmd = ["gemini", "--prompt", full_prompt, "--output-format", "json", "--yolo", "--skip-trust", "--approval-mode", "yolo"]
+        # Note: --yolo and --approval-mode are mutually exclusive in newer CLI versions.
+        cmd = ["gemini", "--prompt", full_prompt, "--output-format", "json", "--skip-trust", "--approval-mode", "yolo"]
         
         if self.model_name and self.model_name != "gemini-cli":
             cmd.extend(["--model", self.model_name])
 
         logger.info(f"Executing Gemini CLI for chat (messages: {len(messages)}, model: {self.model_name})")
         
+        # Ensure the subprocess inherits the trust environment variable
+        env = os.environ.copy()
+        env["GEMINI_CLI_TRUST_WORKSPACE"] = "true"
+
         try:
-            result = subprocess.run(cmd, capture_output=True, text=True, timeout=180)
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=180, env=env)
             
             if result.returncode != 0:
                 logger.error(f"Gemini CLI error: {result.stderr}")
