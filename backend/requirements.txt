@@ -13,3 +13,4 @@ python-jose[cryptography]
 passlib[bcrypt]
 ldap3
 python-multipart
+asyncpg
