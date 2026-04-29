@@ -34,7 +34,8 @@ export const useStreamingResponse = (tabId: string) => {
     const token = localStorage.getItem('token'); // Fixed key from access_token to token
 
     try {
-      await fetchEventSource('http://localhost:8000/api/orchestrate', {
+      const backendUrl = '/api/orchestrate';
+      await fetchEventSource(backendUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
