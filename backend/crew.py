@@ -7,14 +7,12 @@ from tools import (
     UbuntuRemediationTool, KaliOffensiveTool, FeedbackQueryTool
 )
 
+from gemini_bridge import GeminiChatCLI
+
 load_dotenv()
 
-# 1. Initialize Gemini LLM using crewAI's native LLM class
-gemini_llm = LLM(
-    model="gemini/gemini-flash-latest",
-    api_key=os.getenv("GEMINI_API_KEY"),
-    temperature=0.5
-)
+# 1. Initialize Gemini LLM using the CLI Bridge (No API key required)
+gemini_llm = GeminiChatCLI(model_name="gemini-2.0-flash")
 
 # 2. Define Agents
 security_coordinator = Agent(

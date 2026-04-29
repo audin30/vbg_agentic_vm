@@ -4,7 +4,7 @@ This project is a centralized **Internal Security Hub** featuring a persistent R
 
 ## 🏗️ Architecture
 
-The system utilizes a 3-tier architecture for multi-user internal access.
+The system utilizes a 3-tier architecture with a specialized **Sub-Agent Delegation** model.
 
 ```mermaid
 graph TD
@@ -12,76 +12,67 @@ graph TD
         User[Security Analyst]
         UI[Persistent Multi-tab Interface]
         SSE[SSE Streaming Logic]
+        HITL_UI[Approve/Deny Controls]
     end
 
     subgraph "Backend Orchestrator (Python / FastAPI)"
         API[FastAPI Server :8000]
         Auth[LDAP / JWT Auth]
-        Crew[CrewAI Orchestrator]
-        DB_Helper[Database Helper / Audit Logger]
+        Bridge[Gemini CLI Bridge]
         
-        subgraph "Specialized Agents"
-            TI_Agent[Threat Intel Researcher]
-            VV_Agent[Vuln Validation Specialist]
-            RA_Agent[Security Risk Analyst]
-            WR_Agent[Remediation Specialists]
+        subgraph "Security Crew (Sub-Agent Hierarchy)"
+            Coord[Security Coordinator]
+            Coord --> TI[Researcher]
+            Coord --> VV[Vuln Specialist]
+            Coord --> RA[Risk Analyst]
+            TI <--> RA
         end
     end
 
     subgraph "Data & Knowledge (PostgreSQL)"
         PG[(Security DB)]
         Audit[Identity-linked Audit Logs]
-        Cache[TI Knowledge Cache]
         Tabs[User Active Queries / Tabs]
-        Findings[Vuln Findings: Tenable, Wiz, etc.]
-        Feedback[Agent Feedback / HITL Learning]
+        Feedback[HITL Learning DB]
     end
 
     subgraph "External Nodes & APIs"
-        Kali[[Remote Kali Node - SSH]]
-        WinTarget[[Windows Asset - WinRM]]
-        UnixTarget[[Linux/macOS Asset - SSH]]
+        Nodes[[Kali / WinRM / SSH Targets]]
         APIs[Security APIs: VT, GreyNoise, OTX]
+        CLI[Gemini CLI - Auth Provider]
     end
 
     %% Interactions
     User --> UI
     UI -->|JWT Auth| API
-    UI -->|Feedback/HITL| API
-    API --> Auth
-    API --> Crew
-    Auth -->|LDAP| DC[[Domain Controller]]
-    Crew --> TI_Agent & VV_Agent & RA_Agent & WR_Agent
+    UI -->|Feedback| API
+    API --> Bridge
+    Bridge -->|Subprocess| CLI
+    Coord --> TI & VV & RA
     
     %% Storage
-    API --> DB_Helper
-    DB_Helper --> Audit & Cache & Tabs & Findings & Feedback
-
-    %% Tools
-    TI_Agent --> APIs
-    VV_Agent --> Kali
-    WR_Agent --> WinTarget & UnixTarget
-    TI_Agent & VV_Agent & RA_Agent & WR_Agent -->|Query Decisions| Feedback
+    API --> PG
+    TI & VV & RA -->|Query Decisions| Feedback
 ```
 
 ---
 
 ## 🌟 Key Features
 
-- **Human-in-the-Loop (HITL) Feedback**: Capture analyst approvals/denials in real-time. Agents query this feedback before every action to learn and respect historical constraints.
-- **Hybrid Authentication**: Support for both **LDAP/Active Directory** and **Local User Fallback**. The system remains accessible via local admin even if domain controllers are unreachable.
-- **Persistent Multi-tab UI**: Investigations are saved to PostgreSQL and persist across sessions.
-- **Identity-linked Auditing**: Every agent action and tool execution is logged with the analyst's domain username.
-- **Automated Evidence Logic**: Real-time extraction of IPs, Domains, and Hashes from streaming responses.
-- **TI Knowledge Cache**: Shared 24-hour cache for threat intelligence lookups to reduce API costs and latency.
-- **Remote Remediation**: One-click remote patching for Windows (WinRM) and Linux (SSH).
-- **Offensive Offloading**: Automated execution of Metasploit and Searchsploit on a dedicated Kali node.
+- **Sub-Agent Delegation Architecture**: Managed by a `SecurityCoordinator`, specialized agents (Researcher, Risk Analyst, etc.) can now autonomously delegate tasks to one another for complex cross-functional investigations.
+- **Human-in-the-Loop (HITL) Feedback**: A formal feedback loop where agents query the `agent_feedback` table before *every* task. Human approvals/denials take precedence over agent logic.
+- **Gemini CLI Bridge**: **No API keys required in code.** The backend leverages your local `gemini` CLI session for LLM access, improving security and simplifying credential management.
+- **Hybrid Authentication**: Support for both **LDAP/Active Directory** and **Local User Fallback** (initial setup via `admin/password123`).
+- **Persistent Multi-tab UI**: All investigations and tab states are synced to PostgreSQL, allowing analysts to resume work from any device.
+- **Identity-linked Auditing**: Every action is logged with the analyst's domain username, including automatic PII masking of sensitive data (IPs, emails, keys).
+- **Remote Remediation**: One-click patching and software updates for Windows (WinRM), Linux (SSH), and macOS (SSH).
 
 ---
 
 ## ⚙️ Setup & Installation
 
 ### 1. Prerequisites
+- **Gemini CLI**: Installed and authenticated (`gemini` command should work).
 - **PostgreSQL**: Version 13+ (Uses `gen_random_uuid()`).
 - **Python**: 3.12+
 - **Node.js**: 20+
@@ -89,33 +80,30 @@ graph TD
 ### 2. Backend Installation
 ```bash
 cd backend
-python3.12 -m venv venv
+python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-# Add asyncpg and crewai[google-genai]
-pip install asyncpg "crewai[google-genai]"
 ```
 
 ### 3. Environment Configuration
 Create `backend/.env` with the following:
 ```bash
-# Core
-GEMINI_API_KEY=your_key_here
+# --- Gemini CLI Bridge ---
+# Optional if logged into 'gemini' CLI. 
+# GEMINI_API_KEY=AIzaSy...
 
-# Database
+# --- Database Credentials ---
 POSTGRES_HOST=localhost
 POSTGRES_PORT=5432
 POSTGRES_DATABASE=security_db
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=your_password
 
-# Authentication
-LDAP_SERVER=ldap://your-domain-controller
-LDAP_BASE_DN=dc=example,dc=com
-LDAP_USER_DN_TEMPLATE=uid={username},ou=users,dc=example,dc=com
+# --- Authentication ---
 JWT_SECRET_KEY=generate-a-secure-key-here
+JWT_ALGORITHM=HS256
 
-# Security Tooling
+# --- Security APIs ---
 VIRUSTOTAL_API_KEY=...
 GREYNOISE_API_KEY=...
 OTX_API_KEY=...

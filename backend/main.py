@@ -21,7 +21,7 @@ from logger_config import logger
 from database.db_helper import db
 
 if not os.getenv("GEMINI_API_KEY"):
-    logger.warning("GEMINI_API_KEY is not set in backend/.env. Agents will not function.")
+    logger.info("GEMINI_API_KEY not found. Using Gemini CLI bridge for LLM access.")
 else:
     # Set both for different library expectations
     os.environ["GOOGLE_API_KEY"] = os.getenv("GEMINI_API_KEY")
