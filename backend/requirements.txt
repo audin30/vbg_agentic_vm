@@ -1,11 +1,11 @@
-crewai==1.14.2
+crewai
 langchain-core
 fastapi
 uvicorn
 psycopg2-binary
 pywinrm
 paramiko
-pydantic>=2.0.0
+pydantic
 openai
 langsmith
 chromadb
