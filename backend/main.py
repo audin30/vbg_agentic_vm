@@ -39,9 +39,21 @@ SECRET_KEY = os.getenv("JWT_SECRET_KEY")
 ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-app = FastAPI(title="Security Orchestrator API")
+from contextlib import async_contextmanager
 
-# Add CORS Middleware to allow Electron to talk to FastAPI
+@async_contextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    await db.connect()
+    logger.info("Database connection established.")
+    yield
+    # Shutdown
+    await db.disconnect()
+    logger.info("Database connection closed.")
+
+app = FastAPI(title="Security Orchestrator API", lifespan=lifespan)
+
+# Add CORS Middleware to allow Electron and Web Portal to talk to FastAPI
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -49,16 +61,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-@app.on_event("startup")
-async def startup():
-    await db.connect()
-    logger.info("Database connection established.")
-
-@app.on_event("shutdown")
-async def shutdown():
-    await db.disconnect()
-    logger.info("Database connection closed.")
 
 class OrchestrationRequest(BaseModel):
     indicator: Optional[str] = None
