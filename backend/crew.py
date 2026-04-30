@@ -1,7 +1,6 @@
 import os
 from dotenv import load_dotenv
 from crewai import Agent, Task, Crew, Process
-from crewai import LLM as CrewLLM
 from tools import (
     ThreatIntelTool, SecurityPrioritizerTool, EmailReporterTool, 
     VulnerabilityValidatorTool, WindowsRemediationTool, MacOSRemediationTool, 
@@ -16,6 +15,9 @@ load_dotenv()
 gemini_llm = GeminiChatCLI()
 
 # 2. Define Agents
+# Note: We use a dummy 'llm' string to pass Pydantic validation, 
+# then manually inject the CLI bridge.
+
 security_coordinator = Agent(
     role='Security Operations Coordinator',
     goal='Orchestrate the security team to fulfill user requests by delegating tasks to specialists',
@@ -24,10 +26,11 @@ security_coordinator = Agent(
     and delegate those steps to your team of specialists (Researcher, Risk Analyst, 
     Remediation Specialists). You don't execute technical tools yourself; you manage 
     the sub-agents to provide a unified and verified outcome.""",
-    llm=gemini_llm,
+    llm="gpt-4", # Dummy to pass validation
     verbose=True,
     allow_delegation=True
 )
+security_coordinator.llm = gemini_llm
 
 researcher = Agent(
     role='Threat Intelligence Researcher',
@@ -37,10 +40,11 @@ researcher = Agent(
     to provide a clear verdict. Before finalized findings, check the feedback_query_tool 
     to see if a human has previously flagged or dismissed specific indicators.""",
     tools=[ThreatIntelTool(), FeedbackQueryTool()],
-    llm=gemini_llm,
+    llm="gpt-4", # Dummy to pass validation
     verbose=True,
     allow_delegation=True
 )
+researcher.llm = gemini_llm
 
 vulnerability_specialist = Agent(
     role='Vulnerability Validation Specialist',
@@ -50,10 +54,11 @@ vulnerability_specialist = Agent(
     to see if a human has previously denied testing on a specific target. 
     Respect all previous human decisions.""",
     tools=[VulnerabilityValidatorTool(), KaliOffensiveTool(), FeedbackQueryTool()],
-    llm=gemini_llm,
+    llm="gpt-4", # Dummy to pass validation
     verbose=True,
     allow_delegation=False
 )
+vulnerability_specialist.llm = gemini_llm
 
 prioritizer = Agent(
     role='Security Risk Analyst',
@@ -62,10 +67,11 @@ prioritizer = Agent(
     Critically, you must check the feedback_query_tool to see if a human has previously 
     accepted a risk or deprioritized a finding, and adjust your list accordingly.""",
     tools=[SecurityPrioritizerTool(), EmailReporterTool(), FeedbackQueryTool()],
-    llm=gemini_llm,
+    llm="gpt-4", # Dummy to pass validation
     verbose=True,
     allow_delegation=True
 )
+prioritizer.llm = gemini_llm
 
 remediation_specialist = Agent(
     role='Windows Remediation Specialist',
@@ -74,10 +80,11 @@ remediation_specialist = Agent(
     you MUST check the feedback_query_tool for the target asset. If a human has previously 
     denied a patch or provided specific constraints (e.g., 'no reboots'), you MUST adhere to them.""",
     tools=[WindowsRemediationTool(), FeedbackQueryTool()],
-    llm=gemini_llm,
+    llm="gpt-4", # Dummy to pass validation
     verbose=True,
     allow_delegation=False
 )
+remediation_specialist.llm = gemini_llm
 
 macos_remediation_specialist = Agent(
     role='macOS Remediation Specialist',
@@ -86,10 +93,11 @@ macos_remediation_specialist = Agent(
     feedback_query_tool for the target. Adhere strictly to any human feedback regarding 
     reboots or update timing for that asset.""",
     tools=[MacOSRemediationTool(), EmailReporterTool(), FeedbackQueryTool()],
-    llm=gemini_llm,
+    llm="gpt-4", # Dummy to pass validation
     verbose=True,
     allow_delegation=False
 )
+macos_remediation_specialist.llm = gemini_llm
 
 ubuntu_remediation_specialist = Agent(
     role='Ubuntu Remediation Specialist',
@@ -98,10 +106,11 @@ ubuntu_remediation_specialist = Agent(
     check the feedback_query_tool for the target IP. You MUST follow historical 
     human decisions regarding package pinning or denied updates.""",
     tools=[UbuntuRemediationTool(), EmailReporterTool(), FeedbackQueryTool()],
-    llm=gemini_llm,
+    llm="gpt-4", # Dummy to pass validation
     verbose=True,
     allow_delegation=False
 )
+ubuntu_remediation_specialist.llm = gemini_llm
 
 # 3. Security Crew Orchestrator (Structured)
 def create_security_crew(indicator=None, indicator_type=None):
@@ -155,6 +164,6 @@ def create_chat_crew(question):
         agents=[security_coordinator, researcher, vulnerability_specialist, prioritizer, remediation_specialist, macos_remediation_specialist, ubuntu_remediation_specialist],
         tasks=[analysis_task],
         process=Process.hierarchical,
-        manager_llm=gemini_llm,
+        manager_llm=gemini_llm, # Crew expects an LLM for the manager too
         verbose=True
     )
