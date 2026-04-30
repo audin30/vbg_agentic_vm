@@ -39,9 +39,9 @@ SECRET_KEY = os.getenv("JWT_SECRET_KEY")
 ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-from contextlib import async_contextmanager
+from contextlib import asynccontextmanager
 
-@async_contextmanager
+@asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
     await db.connect()
