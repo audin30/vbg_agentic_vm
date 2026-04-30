@@ -3,18 +3,17 @@ import json
 import logging
 import os
 from typing import Any, List, Mapping, Optional
-from langchain.llms.base import LLM
+from langchain_core.language_models.llms import LLM
 
 logger = logging.getLogger(__name__)
 
 class GeminiChatCLI(LLM):
     """
     A custom LangChain LLM that routes all prompts through the Gemini CLI.
-    Uses the legacy BaseLLM interface to ensure maximum compatibility 
-    with CrewAI's Pydantic validators.
+    Uses the modern langchain_core LLM interface.
     """
     
-    # We define this as a class attribute so Pydantic doesn't complain
+    # model_name must be defined as a field for Pydantic
     model_name: str = "gemini-2.0-flash"
 
     @property

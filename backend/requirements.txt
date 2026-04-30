@@ -1,4 +1,5 @@
 crewai
+langchain
 langchain-core
 fastapi
 uvicorn

@@ -13,7 +13,6 @@ from gemini_bridge import GeminiChatCLI
 load_dotenv()
 
 # 1. Initialize Gemini LLM using the CLI Bridge (No API key required)
-# We instantiate the class directly.
 gemini_llm = GeminiChatCLI()
 
 # 2. Define Agents
