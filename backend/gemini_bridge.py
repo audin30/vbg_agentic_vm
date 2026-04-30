@@ -1,55 +1,43 @@
 import subprocess
 import json
 import logging
-from typing import Any, List, Mapping, Optional, Union
-from langchain_core.language_models.chat_models import BaseChatModel
-from langchain_core.messages import BaseMessage, AIMessage, HumanMessage, SystemMessage
-from langchain_core.outputs import ChatResult, ChatGeneration
+import os
+from typing import Any, List, Mapping, Optional
+from langchain_core.language_models.llms import LLM
 from langchain_core.callbacks.manager import CallbackManagerForLLMRun
 
 logger = logging.getLogger(__name__)
 
-class GeminiChatCLI(BaseChatModel):
+class GeminiChatCLI(LLM):
     """
-    A custom LangChain ChatModel that routes all prompts through the Gemini CLI.
-    This allows running agents without a GEMINI_API_KEY in the environment.
+    A custom LangChain LLM that routes all prompts through the Gemini CLI.
+    This allows running agents without a GEMINI_API_KEY in the environment,
+    leveraging the CLI's authenticated session.
+    
+    Inheriting from 'LLM' (BaseLLM) ensures compatibility with Pydantic 
+    validators in CrewAI and older LangChain environments.
     """
-    model_name: str = "gemini-cli"
+    model_name: str = "gemini-2.0-flash"
 
     @property
     def _llm_type(self) -> str:
-        return "gemini_cli_chat"
+        return "gemini_cli"
 
-    def _generate(
+    def _call(
         self,
-        messages: List[BaseMessage],
+        prompt: str,
         stop: Optional[List[str]] = None,
         run_manager: Optional[CallbackManagerForLLMRun] = None,
         **kwargs: Any,
-    ) -> ChatResult:
-        # Convert messages to a single prompt for the CLI
-        prompt_parts = []
-        for m in messages:
-            if isinstance(m, SystemMessage):
-                prompt_parts.append(f"System: {m.content}")
-            elif isinstance(m, HumanMessage):
-                prompt_parts.append(f"User: {m.content}")
-            elif isinstance(m, AIMessage):
-                prompt_parts.append(f"Assistant: {m.content}")
-            else:
-                prompt_parts.append(f"{m.type}: {m.content}")
-        
-        full_prompt = "\n".join(prompt_parts)
-        
+    ) -> str:
         # We use --approval-mode yolo to ensure it doesn't hang waiting for tool approvals
         # and --output-format json to get structured results.
-        # Note: --yolo and --approval-mode are mutually exclusive in newer CLI versions.
-        cmd = ["gemini", "--prompt", full_prompt, "--output-format", "json", "--skip-trust", "--approval-mode", "yolo"]
+        cmd = ["gemini", "--prompt", prompt, "--output-format", "json", "--skip-trust", "--approval-mode", "yolo"]
         
         if self.model_name and self.model_name != "gemini-cli":
             cmd.extend(["--model", self.model_name])
 
-        logger.info(f"Executing Gemini CLI for chat (messages: {len(messages)}, model: {self.model_name})")
+        logger.info(f"Executing Gemini CLI (model: {self.model_name})")
         
         # Ensure the subprocess inherits the trust environment variable
         env = os.environ.copy()
@@ -60,29 +48,25 @@ class GeminiChatCLI(BaseChatModel):
             
             if result.returncode != 0:
                 logger.error(f"Gemini CLI error: {result.stderr}")
-                text = f"Error from Gemini CLI: {result.stderr}"
-            else:
-                output = result.stdout.strip()
-                # Find the first JSON block (the actual response)
-                start_idx = output.find('{')
-                if start_idx != -1:
-                    json_part = output[start_idx:]
-                    try:
-                        data = json.loads(json_part)
-                        text = data.get("response", output)
-                    except json.JSONDecodeError:
-                        text = output
-                else:
-                    text = output if output else "No response from Gemini CLI."
+                return f"Error from Gemini CLI: {result.stderr}"
+
+            output = result.stdout.strip()
+            # Find the first JSON block (the actual response)
+            start_idx = output.find('{')
+            if start_idx != -1:
+                json_part = output[start_idx:]
+                try:
+                    data = json.loads(json_part)
+                    return data.get("response", output)
+                except json.JSONDecodeError:
+                    return output
+            
+            return output if output else "No response from Gemini CLI."
 
         except subprocess.TimeoutExpired:
-            text = "Gemini CLI request timed out."
+            return "Gemini CLI request timed out."
         except Exception as e:
-            text = f"Exception while calling Gemini CLI: {str(e)}"
-
-        message = AIMessage(content=text)
-        generation = ChatGeneration(message=message)
-        return ChatResult(generations=[generation])
+            return f"Exception while calling Gemini CLI: {str(e)}"
 
     @property
     def _identifying_params(self) -> Mapping[str, Any]:
