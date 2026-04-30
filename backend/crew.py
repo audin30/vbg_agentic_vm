@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
-from crewai import Agent, Task, Crew, Process, LLM
+from crewai import Agent, Task, Crew, Process
+from crewai import LLM as CrewLLM
 from tools import (
     ThreatIntelTool, SecurityPrioritizerTool, EmailReporterTool, 
     VulnerabilityValidatorTool, WindowsRemediationTool, MacOSRemediationTool, 
@@ -12,7 +13,8 @@ from gemini_bridge import GeminiChatCLI
 load_dotenv()
 
 # 1. Initialize Gemini LLM using the CLI Bridge (No API key required)
-gemini_llm = GeminiChatCLI(model_name="gemini-2.0-flash")
+# We instantiate the class directly.
+gemini_llm = GeminiChatCLI()
 
 # 2. Define Agents
 security_coordinator = Agent(
