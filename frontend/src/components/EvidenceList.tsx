@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import { useEvidenceStore } from '../store/useEvidenceStore';
+import { useTabStore } from '../store/useTabStore';
 import { CheckCircle, XCircle, ShieldAlert, Zap, Globe, Fingerprint } from 'lucide-react';
 
 const EvidenceList: React.FC = () => {
   const { evidence } = useEvidenceStore();
+  const { tabs } = useTabStore();
   const [processing, setProcessing] = useState<string | null>(null);
+
+  const activeTab = tabs.find(t => t.isActive);
+  const tabEvidence = activeTab ? evidence[activeTab.id] || [] : [];
 
   const handleFeedback = async (id: string, target: string, type: string, decision: string) => {
     setProcessing(id);
@@ -24,7 +29,6 @@ const EvidenceList: React.FC = () => {
       });
 
       if (response.ok) {
-        // We could update local state here, but for now just showing success
         console.log(`Feedback submitted: ${decision} for ${target}`);
       }
     } catch (err) {
@@ -34,7 +38,7 @@ const EvidenceList: React.FC = () => {
     }
   };
 
-  if (evidence.length === 0) {
+  if (tabEvidence.length === 0) {
     return (
       <div style={{ padding: '2rem', textAlign: 'center', opacity: 0.5, fontSize: '0.9rem' }}>
         No indicators detected in this session yet.
@@ -44,7 +48,7 @@ const EvidenceList: React.FC = () => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', padding: '1rem 0' }}>
-      {evidence.map((item) => (
+      {tabEvidence.map((item) => (
         <div 
           key={item.id} 
           style={{ 
@@ -57,13 +61,13 @@ const EvidenceList: React.FC = () => {
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.5rem' }}>
             {item.type === 'ip' && <Globe size={14} className="text-blue-400" />}
-            {item.type === 'cve' && <ShieldAlert size={14} className="text-red-400" />}
+            {item.type === 'cve' as any && <ShieldAlert size={14} className="text-red-400" />}
             {item.type === 'hash' && <Fingerprint size={14} className="text-purple-400" />}
             <span style={{ fontWeight: 600, color: '#c9d1d9' }}>{item.value}</span>
           </div>
           
           <div style={{ color: '#8b949e', fontSize: '0.8rem', marginBottom: '1rem' }}>
-            Source: {item.source}
+            Indicator detected
           </div>
 
           <div style={{ display: 'flex', gap: '8px' }}>
