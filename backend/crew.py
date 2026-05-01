@@ -17,7 +17,10 @@ from tools import (
 from gemini_bridge import LocalCLIBridge
 
 # --- THE UNIVERSAL PYDANTIC BYPASS ---
+# Manually override Pydantic validation for the Agent class to allow 
+# our custom bridge and custom tools without version conflict errors.
 Agent.model_fields['llm'].annotation = Any
+Agent.model_fields['tools'].annotation = Any
 Agent.model_rebuild(force=True)
 # -------------------------------------
 
