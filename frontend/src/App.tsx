@@ -1,14 +1,22 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import Layout from './components/Layout'
+import Login from './components/Login'
 import { useTabStore } from './store/useTabStore'
+import { ChatView } from './components/ChatView'
 
 function App() {
   const { tabs, addTab, fetchTabs } = useTabStore();
+  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
   const [isInitializing, setIsInitializing] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!isAuthenticated) {
+      setIsInitializing(false);
+      return;
+    }
+
     const init = async () => {
       try {
         console.log("Initializing Security Hub...");
@@ -28,7 +36,16 @@ function App() {
     };
 
     init();
-  }, [fetchTabs, addTab]);
+  }, [fetchTabs, addTab, isAuthenticated]);
+
+  const handleLoginSuccess = () => {
+    setIsAuthenticated(true);
+    setIsInitializing(true);
+  };
+
+  if (!isAuthenticated) {
+    return <Login onLoginSuccess={handleLoginSuccess} />;
+  }
 
   if (error) {
     return (
@@ -60,16 +77,18 @@ function App() {
     );
   }
 
+  const activeTab = tabs.find(t => t.isActive);
+
   return (
     <Layout>
-      <div className="content">
-        <h1>Centralized Security Hub</h1>
-        <p>Phase 3: Sub-Agent & HITL Persistence Active</p>
-        <div style={{ marginTop: '2rem', padding: '1rem', border: '1px solid var(--border)', borderRadius: '8px' }}>
-          <h3>Welcome to the Investigation Portal</h3>
-          <p>Status: Authenticated and Connected to {window.location.hostname}</p>
+      {activeTab ? (
+        <ChatView tabId={activeTab.id} />
+      ) : (
+        <div className="content">
+          <h1>Centralized Security Hub</h1>
+          <p>Please select an investigation tab to begin.</p>
         </div>
-      </div>
+      )}
     </Layout>
   )
 }
