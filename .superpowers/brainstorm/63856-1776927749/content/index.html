@@ -1,0 +1,22 @@
+<h2>Design Section 1: Frontend Architecture & Tab Persistence</h2>
+
+<div class="mockup">
+  <div class="mockup-header">Client-Side Tech Stack</div>
+  <div class="mockup-body">
+    <ul>
+      <li><strong>React (Vite):</strong> Fast development and optimized production builds.</li>
+      <li><strong>Zustand:</strong> Lightweight state management to handle active tabs and streaming content across the SPA.</li>
+      <li><strong>React Router:</strong> Maps URLs like <code>/query/:id</code> to the correct tab in the workspace.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Persistent Tab Logic:</h3>
+  <p>To ensure tabs persist across refreshes, we will implement the following flow:</p>
+  <ol>
+    <li><strong>Database:</strong> Add a <code>user_active_queries</code> table to PostgreSQL (<code>user_id</code>, <code>query_id</code>, <code>tab_order</code>, <code>is_active</code>).</li>
+    <li><strong>Initial Load:</strong> Upon logging in, the React app fetches the list of active queries from <code>/api/users/me/tabs</code>.</li>
+    <li><strong>Sync:</strong> Opening, closing, or reordering a tab triggers a background <code>POST</code>/<code>DELETE</code> to the backend to keep the database in sync with the UI.</li>
+  </ol>
+</div>
