@@ -14,11 +14,9 @@ from tools import (
     UbuntuRemediationTool, KaliOffensiveTool, FeedbackQueryTool
 )
 
-from gemini_bridge import GeminiChatCLI
+from gemini_bridge import LocalCLIBridge
 
 # --- THE UNIVERSAL PYDANTIC BYPASS ---
-# This manually overrides the Pydantic validation for the Agent class
-# to allow our custom bridge without inheritance errors.
 Agent.model_fields['llm'].annotation = Any
 Agent.model_rebuild(force=True)
 # -------------------------------------
@@ -66,7 +64,7 @@ def get_agents(llm):
     return coordinator, researcher, vuln_spec, risk_analyst
 
 def create_security_crew(indicator=None, indicator_type=None):
-    llm = GeminiChatCLI()
+    llm = LocalCLIBridge()
     coordinator, researcher, vuln_spec, risk_analyst = get_agents(llm)
     
     tasks = []
@@ -98,7 +96,7 @@ def create_security_crew(indicator=None, indicator_type=None):
     )
 
 def create_chat_crew(question):
-    llm = GeminiChatCLI()
+    llm = LocalCLIBridge()
     coordinator, researcher, vuln_spec, risk_analyst = get_agents(llm)
     
     analysis_task = Task(
