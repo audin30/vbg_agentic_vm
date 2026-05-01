@@ -7,19 +7,15 @@ from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_core.messages import BaseMessage, AIMessage
 from langchain_core.outputs import ChatResult, ChatGeneration
 
-# Create a dedicated log for the bridge to help debugging
-bridge_log = logging.getLogger("gemini_bridge")
-handler = logging.FileHandler("bridge_debug.log")
-handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
-bridge_log.addHandler(handler)
-bridge_log.setLevel(logging.INFO)
+bridge_log = logging.getLogger("bridge")
 
-class GeminiChatCLI(BaseChatModel):
+class LocalCLIBridge(BaseChatModel):
     """
-    A custom LangChain Chat Model that routes all prompts through the Gemini CLI.
-    Inheriting from BaseChatModel ensures full compatibility with CrewAI.
+    A generic bridge that routes prompts through the Gemini CLI.
+    Renamed to avoid triggering CrewAI's native Google provider regex.
     """
-    model_name: str = "gemini-2.0-flash"
+    # Renamed to something generic
+    model_name: str = "custom-orchestrator-bridge"
 
     def _generate(
         self,
@@ -28,41 +24,29 @@ class GeminiChatCLI(BaseChatModel):
         run_manager: Optional[Any] = None,
         **kwargs: Any,
     ) -> ChatResult:
-        # Convert LangChain messages to a single string for the CLI
         prompt = ""
         for m in messages:
-            # We use a more distinct separator for different roles
             role = "USER" if m.type == "human" else "AGENT" if m.type == "ai" else "SYSTEM"
             prompt += f"### {role} ###\n{m.content}\n\n"
 
-        # Build the CLI command
-        # We use a longer timeout (300s) as CrewAI tasks can be complex
-        cmd = ["gemini", "--prompt", prompt, "--output-format", "json", "--skip-trust", "--approval-mode", "yolo"]
-        
-        if self.model_name:
-            cmd.extend(["--model", self.model_name])
-
-        bridge_log.info(f"Calling Gemini CLI with prompt length: {len(prompt)}")
+        # Use 'gemini-2.0-flash' internally but don't tell CrewAI
+        real_model = "gemini-2.0-flash"
+        cmd = ["gemini", "--prompt", prompt, "--output-format", "json", "--skip-trust", "--approval-mode", "yolo", "--model", real_model]
         
         env = os.environ.copy()
         env["GEMINI_CLI_TRUST_WORKSPACE"] = "true"
 
         try:
-            # We use a 5-minute timeout for the CLI bridge
             result = subprocess.run(cmd, capture_output=True, text=True, timeout=300, env=env)
             
             if result.returncode != 0:
-                bridge_log.error(f"CLI Return Code {result.returncode}. Stderr: {result.stderr}")
-                text_response = f"Error from Gemini CLI (Code {result.returncode}): {result.stderr}"
+                text_response = f"Error from CLI: {result.stderr}"
             else:
                 output = result.stdout.strip()
-                # Find the LAST JSON block (in case there's preamble)
                 start_idx = output.rfind('{')
                 if start_idx != -1:
                     try:
-                        # Attempt to find matching closing brace if there's trailing junk
                         json_str = output[start_idx:]
-                        # Simple check for balanced braces to handle trailing text
                         balance = 0
                         end_pos = 0
                         for i, char in enumerate(json_str):
@@ -71,26 +55,18 @@ class GeminiChatCLI(BaseChatModel):
                             if balance == 0:
                                 end_pos = i + 1
                                 break
-                        
                         data = json.loads(json_str[:end_pos])
                         text_response = data.get("response", output)
-                        bridge_log.info("Successfully parsed JSON response from CLI.")
-                    except Exception as e:
-                        bridge_log.warning(f"JSON parsing failed: {str(e)}. Raw output: {output[:200]}...")
+                    except:
                         text_response = output
                 else:
-                    bridge_log.warning("No JSON block found in CLI output.")
-                    text_response = output if output else "No response from CLI."
+                    text_response = output if output else "No response."
 
-        except subprocess.TimeoutExpired:
-            bridge_log.error("Gemini CLI timed out after 300s.")
-            text_response = "Error: Gemini CLI request timed out. The task might be too complex for a single turn."
         except Exception as e:
-            bridge_log.error(f"Bridge exception: {str(e)}")
             text_response = f"Bridge Exception: {str(e)}"
 
         return ChatResult(generations=[ChatGeneration(message=AIMessage(content=text_response))])
 
     @property
     def _llm_type(self) -> str:
-        return "gemini-cli-bridge"
+        return "local-bridge"
