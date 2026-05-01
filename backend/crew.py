@@ -1,5 +1,12 @@
 import os
 from dotenv import load_dotenv
+import pydantic
+from typing import Any
+
+# MUST happen before importing crewai
+load_dotenv()
+os.environ["CREWAI_TELEMETRY_OPTOUT"] = "true"
+
 from crewai import Agent, Task, Crew, Process
 from tools import (
     ThreatIntelTool, SecurityPrioritizerTool, EmailReporterTool, 
@@ -9,7 +16,12 @@ from tools import (
 
 from gemini_bridge import GeminiChatCLI
 
-load_dotenv()
+# --- THE UNIVERSAL PYDANTIC BYPASS ---
+# This manually overrides the Pydantic validation for the Agent class
+# to allow our custom bridge without inheritance errors.
+Agent.model_fields['llm'].annotation = Any
+Agent.model_rebuild(force=True)
+# -------------------------------------
 
 def get_agents(llm):
     coordinator = Agent(
