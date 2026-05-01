@@ -129,27 +129,42 @@ async def get_feedback(target: str, current_user: str = Depends(get_current_user
     feedback = await db.get_feedback_for_target(target)
     return feedback
 
+from fastapi.responses import StreamingResponse
+import asyncio
+
 @app.post("/api/orchestrate")
 async def orchestrate(request: OrchestrationRequest, current_user: str = Depends(get_current_user)):
     await db.log_audit(current_user, "orchestrate_start", request.dict())
-    try:
-        if request.question:
-            from crew import create_chat_crew
-            crew = create_chat_crew(request.question)
-        else:
-            crew = create_security_crew(request.indicator, request.indicator_type)
+    
+    async def event_generator():
+        try:
+            # 1. Initial Thought - "Analyzing request"
+            yield "event: thought\ndata: Analyzing your request and delegating tasks to specialists...\n\n"
+            await asyncio.sleep(0.1)
+
+            if request.question:
+                from crew import create_chat_crew
+                crew = create_chat_crew(request.question)
+            else:
+                crew = create_security_crew(request.indicator, request.indicator_type)
             
-        result = await crew.kickoff_async()
-        
-        await db.log_audit(current_user, "orchestrate_complete", None, str(result))
-        
-        return {
-            "status": "success",
-            "result": str(result)
-        }
-    except Exception as e:
-        await db.log_audit(current_user, "orchestrate_error", None, str(e))
-        raise HTTPException(status_code=500, detail=str(e))
+            # 2. Execute CrewAI (Blocking call wrapped in thread)
+            # We use kickoff() instead of kickoff_async() for maximum compatibility with all CrewAI versions
+            loop = asyncio.get_event_loop()
+            result = await loop.run_in_executor(None, crew.kickoff)
+            
+            final_result = str(result)
+            await db.log_audit(current_user, "orchestrate_complete", None, final_result)
+            
+            # 3. Final Result
+            yield f"data: {final_result}\n\n"
+            
+        except Exception as e:
+            logger.error(f"Orchestration Error: {str(e)}")
+            await db.log_audit(current_user, "orchestrate_error", None, str(e))
+            yield f"event: error\ndata: {str(e)}\n\n"
+
+    return StreamingResponse(event_generator(), media_type="text/event-stream")
 
 if __name__ == "__main__":
     import uvicorn
