@@ -4,7 +4,7 @@ import json
 import psycopg2
 import winrm
 import paramiko
-from crewai.tools import BaseTool
+from langchain.tools import BaseTool
 from typing import Type
 from pydantic import BaseModel, Field
 from logger_config import logger
