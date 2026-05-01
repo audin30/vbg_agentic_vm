@@ -5,6 +5,8 @@ from dotenv import load_dotenv
 load_dotenv()
 os.environ["GEMINI_API_VERSION"] = "v1"
 os.environ["GOOGLE_API_VERSION"] = "v1"
+os.environ["CREWAI_TELEMETRY_OPTOUT"] = "true"
+os.environ["OTEL_SDK_DISABLED"] = "true"
 
 from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
