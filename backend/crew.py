@@ -1,12 +1,5 @@
 import os
 from dotenv import load_dotenv
-import pydantic
-from typing import Any
-
-# MUST happen before importing crewai
-load_dotenv()
-os.environ["CREWAI_TELEMETRY_OPTOUT"] = "true"
-
 from crewai import Agent, Task, Crew, Process
 from tools import (
     ThreatIntelTool, SecurityPrioritizerTool, EmailReporterTool, 
@@ -16,22 +9,20 @@ from tools import (
 
 from gemini_bridge import LocalCLIBridge
 
-# --- THE UNIVERSAL PYDANTIC BYPASS ---
-# Manually override Pydantic validation for the Agent class to allow 
-# our custom bridge and custom tools without version conflict errors.
-Agent.model_fields['llm'].annotation = Any
-Agent.model_fields['tools'].annotation = Any
-Agent.model_rebuild(force=True)
-# -------------------------------------
+load_dotenv()
 
-def get_agents(llm):
+def get_agents():
+    # We use the Stealth Bridge which looks like ChatOpenAI to CrewAI
+    llm = LocalCLIBridge()
+    
     coordinator = Agent(
         role='Security Operations Coordinator',
         goal='Orchestrate the security team to fulfill user requests by delegating tasks to specialists',
         backstory="You are the lead orchestrator of a high-performance security team.",
         llm=llm,
         verbose=True,
-        allow_delegation=True
+        allow_delegation=True,
+        memory=False # Disable memory to prevent extra LLM calls that check for keys
     )
 
     researcher = Agent(
@@ -41,7 +32,8 @@ def get_agents(llm):
         tools=[ThreatIntelTool(), FeedbackQueryTool()],
         llm=llm,
         verbose=True,
-        allow_delegation=True
+        allow_delegation=True,
+        memory=False
     )
 
     vuln_spec = Agent(
@@ -51,7 +43,8 @@ def get_agents(llm):
         tools=[VulnerabilityValidatorTool(), KaliOffensiveTool(), FeedbackQueryTool()],
         llm=llm,
         verbose=True,
-        allow_delegation=False
+        allow_delegation=False,
+        memory=False
     )
 
     risk_analyst = Agent(
@@ -61,14 +54,14 @@ def get_agents(llm):
         tools=[SecurityPrioritizerTool(), EmailReporterTool(), FeedbackQueryTool()],
         llm=llm,
         verbose=True,
-        allow_delegation=True
+        allow_delegation=True,
+        memory=False
     )
 
     return coordinator, researcher, vuln_spec, risk_analyst
 
 def create_security_crew(indicator=None, indicator_type=None):
-    llm = LocalCLIBridge()
-    coordinator, researcher, vuln_spec, risk_analyst = get_agents(llm)
+    coordinator, researcher, vuln_spec, risk_analyst = get_agents()
     
     tasks = []
     if indicator and indicator_type:
@@ -99,8 +92,7 @@ def create_security_crew(indicator=None, indicator_type=None):
     )
 
 def create_chat_crew(question):
-    llm = LocalCLIBridge()
-    coordinator, researcher, vuln_spec, risk_analyst = get_agents(llm)
+    coordinator, researcher, vuln_spec, risk_analyst = get_agents()
     
     analysis_task = Task(
         description=f"Analyze and respond to the following security request: '{question}'",
