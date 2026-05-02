@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useEvidenceStore } from '../store/useEvidenceStore';
 import { useTabStore } from '../store/useTabStore';
-import { CheckCircle, XCircle, ShieldAlert, Zap, Globe, Fingerprint } from 'lucide-react';
+import { CheckCircle, XCircle, ShieldAlert, Globe, Fingerprint } from 'lucide-react';
 
 const EvidenceList: React.FC = () => {
   const { evidence } = useEvidenceStore();
