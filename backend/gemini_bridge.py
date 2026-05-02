@@ -3,22 +3,19 @@ import json
 import logging
 import os
 from typing import Any, List, Optional
-from langchain_openai import ChatOpenAI
+from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_core.messages import BaseMessage, AIMessage
 from langchain_core.outputs import ChatResult, ChatGeneration
 
 logger = logging.getLogger(__name__)
 
-class LocalCLIBridge(ChatOpenAI):
+class LocalCLIBridge(BaseChatModel):
     """
-    A 'Stealth Bridge' that inherits from ChatOpenAI to fool CrewAI's 
-    internal checks, but overrides the actual generation to use the local Gemini CLI.
+    A pure LangChain bridge that routes prompts through the local Gemini CLI.
+    Does not require 'langchain-openai' or any external API keys.
     """
-    model_name: str = "gpt-4-stealth-bridge" # Fool the validator
-
-    def __init__(self, **kwargs):
-        # Initialize with dummy data to satisfy BaseChatOpenAI
-        super().__init__(openai_api_key="sk-local-bridge", **kwargs)
+    # Use a generic name to avoid triggering CrewAI's native provider logic
+    model_name: str = "local-orchestrator-engine"
 
     def _generate(
         self,
@@ -39,13 +36,13 @@ class LocalCLIBridge(ChatOpenAI):
         env = os.environ.copy()
         env["GEMINI_CLI_TRUST_WORKSPACE"] = "true"
 
-        logger.info(f"STEALTH BRIDGE - Executing Gemini CLI")
+        logger.info(f"BRIDGE - Executing Gemini CLI")
 
         try:
             result = subprocess.run(cmd, capture_output=True, text=True, timeout=300, env=env)
             
             if result.returncode != 0:
-                text_response = f"Error from CLI: {result.stderr}"
+                text_response = f"Error from CLI (Code {result.returncode}): {result.stderr}"
             else:
                 output = result.stdout.strip()
                 # Find the LAST JSON block
@@ -60,11 +57,11 @@ class LocalCLIBridge(ChatOpenAI):
                     text_response = output if output else "No response from CLI."
 
         except Exception as e:
-            text_response = f"Stealth Bridge Exception: {str(e)}"
+            text_response = f"Bridge Exception: {str(e)}"
 
         # 3. Return as a standard ChatResult
         return ChatResult(generations=[ChatGeneration(message=AIMessage(content=text_response))])
 
     @property
     def _llm_type(self) -> str:
-        return "openai" # Fool CrewAI into thinking it's native
+        return "custom-local-bridge"
