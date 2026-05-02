@@ -12,7 +12,7 @@ from gemini_bridge import LocalCLIBridge
 load_dotenv()
 
 def get_agents():
-    # We use the Stealth Bridge which looks like ChatOpenAI to CrewAI
+    # Use the Pure Local CLI Bridge (No OpenAI dependency)
     llm = LocalCLIBridge()
     
     coordinator = Agent(
@@ -22,7 +22,7 @@ def get_agents():
         llm=llm,
         verbose=True,
         allow_delegation=True,
-        memory=False # Disable memory to prevent extra LLM calls that check for keys
+        memory=False
     )
 
     researcher = Agent(
