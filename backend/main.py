@@ -11,12 +11,13 @@ from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
 from jose import JWTError, jwt
 import uuid
 import asyncio
 from fastapi.responses import StreamingResponse
 import logging
+from datetime import timedelta
 
 # App specific
 from auth import authenticate_user, create_access_token, get_current_user
@@ -43,10 +44,67 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# --- Schemas ---
+
 class OrchestrationRequest(BaseModel):
     indicator: Optional[str] = None
     indicator_type: Optional[str] = None
     question: Optional[str] = None
+
+class TabStateUpdate(BaseModel):
+    title: str
+    query_state: dict
+
+class FeedbackRequest(BaseModel):
+    action_type: str
+    target: str
+    decision: str
+    feedback_notes: Optional[str] = None
+
+# --- Endpoints ---
+
+@app.post("/token")
+async def login(form_data: OAuth2PasswordRequestForm = Depends()):
+    user = await authenticate_user(form_data.username, form_data.password)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    access_token_expires = timedelta(minutes=60)
+    access_token = create_access_token(
+        data={"sub": user}, expires_delta=access_token_expires
+    )
+    return {"access_token": access_token, "token_type": "bearer"}
+
+@app.get("/api/users/me/tabs")
+async def get_tabs(current_user: str = Depends(get_current_user)):
+    return await db.get_user_tabs(current_user)
+
+@app.post("/api/queries")
+async def create_query(current_user: str = Depends(get_current_user)):
+    query_id = await db.save_user_tab(current_user, "New Investigation", {})
+    return {"query_id": query_id}
+
+@app.put("/api/queries/{query_id}")
+async def update_query(query_id: str, update: TabStateUpdate, current_user: str = Depends(get_current_user)):
+    await db.save_user_tab(current_user, update.title, update.query_state, query_id)
+    return {"status": "success"}
+
+@app.delete("/api/queries/{query_id}")
+async def delete_query(query_id: str, current_user: str = Depends(get_current_user)):
+    await db.close_user_tab(current_user, query_id)
+    return {"status": "success"}
+
+@app.post("/api/feedback")
+async def post_feedback(feedback: FeedbackRequest, current_user: str = Depends(get_current_user)):
+    await db.save_feedback(current_user, feedback.action_type, feedback.target, feedback.decision, feedback.feedback_notes)
+    return {"status": "success"}
+
+@app.get("/api/feedback/{target}")
+async def get_feedback(target: str, current_user: str = Depends(get_current_user)):
+    return await db.get_feedback_for_target(target)
 
 @app.post("/api/orchestrate")
 async def orchestrate(request: OrchestrationRequest, current_user: str = Depends(get_current_user)):
