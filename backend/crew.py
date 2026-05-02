@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 from crewai import Agent, Task, Crew, Process
+from typing import Any
 from tools import (
     ThreatIntelTool, SecurityPrioritizerTool, EmailReporterTool, 
     VulnerabilityValidatorTool, WindowsRemediationTool, MacOSRemediationTool, 
@@ -10,6 +11,18 @@ from tools import (
 from gemini_bridge import LocalCLIBridge
 
 load_dotenv()
+
+# --- THE UNIVERSAL PYDANTIC BYPASS ---
+# Manually override Pydantic validation for the Agent class to allow 
+# our custom bridge and custom tools without version conflict errors.
+Agent.model_fields['llm'].annotation = Any
+Agent.model_fields['tools'].annotation = Any
+Agent.model_rebuild(force=True)
+
+# Also bypass Crew manager validation
+Crew.model_fields['manager_llm'].annotation = Any
+Crew.model_rebuild(force=True)
+# -------------------------------------
 
 def get_agents():
     # Use the Pure Local CLI Bridge (No OpenAI dependency)
