@@ -108,7 +108,7 @@ async def get_feedback(target: str, current_user: str = Depends(get_current_user
 
 @app.post("/api/orchestrate")
 async def orchestrate(request: OrchestrationRequest, current_user: str = Depends(get_current_user)):
-    await db.log_audit(current_user, "orchestrate_start", request.dict())
+    await db.log_audit(current_user, "orchestrate_start", request.model_dump())
     
     async def event_generator():
         try:
