@@ -1,0 +1,420 @@
+2026-05-02 06:50:06,239 [INFO] SecurityOrchestrator: Security Hub: Database connection established.
+2026-05-02 06:50:16,970 [INFO] SecurityOrchestrator: Security Hub: Database connection established.
+2026-05-02 06:50:46,590 [INFO] SecurityOrchestrator: Security Hub: Database connection established.
+2026-05-02 06:55:50,751 [INFO] SecurityOrchestrator: Security Hub: Database connection established.
+2026-05-02 06:56:16,310 [INFO] SecurityOrchestrator: Security Hub: Database connection established.
+2026-05-02 06:56:20,820 [ERROR] SecurityOrchestrator: Orchestration Error: 'manager_llm'
+2026-05-02 06:56:40,308 [INFO] SecurityOrchestrator: Security Hub: Database connection established.
+2026-05-02 06:56:44,070 [ERROR] SecurityOrchestrator: Orchestration Error: 'manager_llm'
+2026-05-02 06:56:56,654 [INFO] SecurityOrchestrator: Security Hub: Database connection established.
+2026-05-02 06:57:00,176 [ERROR] SecurityOrchestrator: Orchestration Error: 'manager_llm'
+2026-05-02 06:58:01,931 [INFO] SecurityOrchestrator: Security Hub: Database connection established.
+2026-05-02 06:58:06,456 [WARNING] gemini_bridge: SECURITY-HUB-LLM: Modern SDK init failed: "SecurityHubLLM" object has no field "_sdk_instance"
+2026-05-02 06:58:06,471 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,473 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,475 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,477 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,479 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,481 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,483 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,485 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,487 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,489 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,491 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,493 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,494 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,496 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,498 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,506 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,508 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,510 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,512 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,514 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,516 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,518 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,519 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,521 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,523 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,525 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,527 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,529 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,530 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:06,532 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 'ModelPrivateAttr' object has no attribute 'generate_content'
+2026-05-02 06:58:25,479 [INFO] SecurityOrchestrator: Security Hub: Database connection established.
+2026-05-02 06:58:29,888 [INFO] gemini_bridge: SECURITY-HUB-LLM: Cloud API (Modern) ready
+2026-05-02 06:58:29,902 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 06:58:30,491 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 06:58:30,493 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 06:58:33,263 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 06:58:33,486 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 06:58:33,488 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 06:58:36,587 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 06:58:36,889 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 06:58:36,890 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 06:58:40,506 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 06:58:40,764 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 06:58:40,768 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 06:58:44,846 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 06:58:45,065 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 06:58:45,066 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 06:58:49,345 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 06:58:49,547 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 06:58:49,548 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 06:58:54,468 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 06:58:54,709 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 06:58:54,710 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 06:58:59,865 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 06:59:00,212 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 06:59:00,212 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 06:59:05,989 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 06:59:06,264 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 06:59:06,265 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 06:59:12,712 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 06:59:13,058 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 06:59:13,060 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 06:59:19,800 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 06:59:20,162 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 06:59:20,164 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 06:59:27,696 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 06:59:27,997 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 06:59:27,998 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 06:59:35,758 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 06:59:36,019 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 06:59:36,020 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 06:59:44,597 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 06:59:44,867 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 06:59:44,873 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 06:59:53,756 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 06:59:54,063 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 06:59:54,066 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:00:03,194 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:00:03,421 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:00:03,422 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:00:06,842 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:00:07,058 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:00:07,059 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:00:09,926 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:00:10,207 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:00:10,209 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:00:13,696 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:00:13,872 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:00:13,873 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:00:17,747 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:00:17,931 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:00:17,932 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:00:22,487 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:00:22,657 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:00:22,658 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:00:27,595 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:00:27,777 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:00:27,778 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:00:33,070 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:00:33,315 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:00:33,318 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:00:39,304 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:00:39,562 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:00:39,563 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:00:46,431 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:00:46,700 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:00:46,701 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:00:53,585 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:00:53,921 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:00:53,922 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:01:01,327 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:01:01,582 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:01:01,583 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:01:09,283 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:01:09,627 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:01:09,628 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:01:17,730 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:01:18,066 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:01:18,067 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:01:26,643 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:01:26,986 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:01:26,988 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:02:06,482 [INFO] SecurityOrchestrator: Security Hub: Database connection established.
+2026-05-02 07:02:15,939 [INFO] gemini_bridge: SECURITY-HUB-LLM: Cloud API (Modern) ready
+2026-05-02 07:02:15,954 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:02:16,246 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:02:16,247 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:02:19,737 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:02:19,841 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:02:19,842 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:02:22,724 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:02:22,841 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:02:22,843 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:02:26,148 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:02:26,265 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:02:26,266 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:02:30,099 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:02:30,292 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:02:30,293 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:02:34,799 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:02:34,918 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:02:34,918 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:02:39,756 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:02:39,868 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:02:39,869 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:02:45,140 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:02:45,390 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:02:45,391 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:02:51,220 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:02:51,399 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:02:51,400 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:02:57,635 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:02:57,829 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:02:57,830 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:03:04,483 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:03:04,666 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:03:04,667 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:03:11,784 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:03:11,977 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:03:11,980 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:03:19,908 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:03:20,213 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:03:20,215 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:03:28,436 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:03:28,653 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:03:28,654 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:03:37,761 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:03:38,012 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:03:38,014 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:03:47,320 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:03:47,481 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:03:47,483 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:03:50,076 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:03:50,170 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:03:50,171 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:03:53,057 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:03:53,136 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:03:53,137 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:03:56,952 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:03:57,047 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:03:57,047 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:04:01,082 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:04:01,189 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:04:01,189 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:04:05,646 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:04:05,754 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:04:05,754 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:04:10,732 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:04:10,845 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:04:10,846 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:04:16,364 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:04:16,607 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:04:16,609 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:04:22,625 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:04:22,898 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:04:22,899 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:04:29,358 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:04:29,546 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:04:29,548 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:04:36,575 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:04:36,760 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:04:36,761 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:04:44,678 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:04:44,917 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:04:44,917 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:04:53,522 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:04:53,703 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:04:53,705 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:05:03,324 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:05:03,518 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:05:03,519 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:05:13,287 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:05:13,460 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:05:13,461 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:06:14,053 [INFO] SecurityOrchestrator: Security Hub: Database connection established.
+2026-05-02 07:06:26,504 [INFO] gemini_bridge: SECURITY-HUB-LLM: Cloud API (Modern) ready
+2026-05-02 07:06:26,519 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:06:26,851 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:06:26,852 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:06:29,290 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:06:29,435 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:06:29,439 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:06:32,434 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:06:32,577 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:06:32,578 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:06:36,110 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:06:36,302 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:06:36,303 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:06:40,307 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:06:40,473 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:06:40,473 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:06:44,840 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:06:45,002 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:06:45,004 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:06:50,030 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:06:50,258 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:06:50,259 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:06:55,270 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:06:55,521 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:06:55,523 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:07:01,593 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:07:01,975 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:07:01,976 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:07:08,076 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:07:08,568 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:07:08,570 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:07:15,975 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:07:16,229 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:07:16,230 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:07:23,312 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:07:23,565 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:07:23,567 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:07:31,170 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:07:31,445 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:07:31,447 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:07:39,796 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:07:40,077 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:07:40,080 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:07:48,752 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:07:49,008 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:07:49,010 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:07:58,161 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:07:58,403 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:07:58,410 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:08:00,731 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:08:00,894 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:08:00,894 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:08:03,750 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:08:03,922 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:08:03,923 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:08:07,861 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:08:08,048 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:08:08,049 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:08:11,887 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:08:12,070 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:08:12,072 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:08:16,921 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:08:17,087 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:08:17,090 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:08:21,915 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:08:22,131 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:08:22,132 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:08:27,522 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:08:27,768 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:08:27,770 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:08:33,679 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:08:33,913 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:08:33,914 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:08:41,249 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:08:41,568 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:08:41,570 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:08:49,045 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:08:49,318 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:08:49,320 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:08:58,345 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:08:58,665 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:08:58,667 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:09:06,783 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:09:07,049 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:09:07,051 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:09:16,050 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:09:16,313 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:09:16,314 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:09:25,461 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:09:25,727 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:09:25,729 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:10:02,059 [INFO] SecurityOrchestrator: Security Hub: Database connection established.
+2026-05-02 07:10:13,689 [INFO] gemini_bridge: SECURITY-HUB-LLM: Cloud API (Modern) ready
+2026-05-02 07:10:13,704 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:10:13,927 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:10:13,927 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:10:16,606 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:10:16,807 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:10:16,809 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:10:21,393 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:10:21,569 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:10:21,570 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:10:25,727 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:10:25,894 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:10:25,896 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:10:29,668 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:10:29,886 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:10:29,887 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:10:34,318 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:10:34,468 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:10:34,469 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:10:39,513 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:10:39,845 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:10:39,846 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:10:45,339 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:10:45,614 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:10:45,615 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:10:51,561 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:10:51,813 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:10:51,814 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:10:58,514 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:10:58,794 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:10:58,796 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:11:05,814 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:11:06,070 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:11:06,072 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:11:13,555 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:11:13,787 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:11:13,790 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:11:21,608 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:11:21,913 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:11:21,914 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:11:30,992 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:11:31,279 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:11:31,280 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:11:40,855 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:11:41,187 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:11:41,189 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:11:50,604 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:11:50,841 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:11:50,842 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:11:53,117 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:11:53,279 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:11:53,280 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:11:56,167 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:11:56,388 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:11:56,390 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:11:59,835 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:12:00,059 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:12:00,062 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:12:03,922 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:12:04,114 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:12:04,116 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:12:08,790 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:12:08,975 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:12:08,977 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:12:14,114 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:12:14,462 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:12:14,464 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:12:20,040 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:12:20,278 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:12:20,280 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:12:26,136 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:12:26,446 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:12:26,448 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:12:33,474 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:12:33,785 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:12:33,786 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:12:40,742 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:12:40,997 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:12:40,998 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:12:48,558 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:12:48,852 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:12:48,853 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:12:57,260 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:12:57,540 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:12:57,542 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:13:06,368 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:13:06,644 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:13:06,647 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:13:15,441 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:13:15,785 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-05-02 07:13:15,786 [ERROR] gemini_bridge: SECURITY-HUB-LLM: Cloud API Error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-05-02 07:13:47,926 [INFO] SecurityOrchestrator: Security Hub: Database connection established.
+2026-05-02 07:13:53,807 [INFO] gemini_bridge: SECURITY-HUB-LLM: Cloud API (Modern) ready
+2026-05-02 07:13:53,821 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:13:57,913 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"
+2026-05-02 07:13:57,923 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:14:04,310 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"
+2026-05-02 07:14:04,359 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:14:11,971 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"
+2026-05-02 07:14:11,981 [INFO] google_genai.models: AFC is enabled with max remote calls: 10.
+2026-05-02 07:14:28,492 [INFO] httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent "HTTP/1.1 200 OK"

@@ -1,16 +1,20 @@
 [Unit]
 Description=VBG Centralized Security Hub
-After=network.target
+After=network.target postgresql.service
 
 [Service]
+# On production, this should be a dedicated service user
 User=vbg-hub
 Group=vbg-hub
-WorkingDirectory=/opt/vbg-hub
+WorkingDirectory=/opt/vbg-hub/backend
+# Load environment variables from the .env file
 EnvironmentFile=/opt/vbg-hub/backend/.env
-# Use the venv python to ensure dependencies are loaded
-ExecStart=/opt/vbg-hub/backend/venv/bin/python backend/main.py
+# Set PYTHONPATH so python can find internal modules
+Environment=PYTHONPATH=/opt/vbg-hub/backend
+# Use the virtual environment's python directly
+ExecStart=/opt/vbg-hub/backend/venv/bin/python main.py
 Restart=always
-RestartSec=5
+RestartSec=10
 StandardOutput=journal
 StandardError=journal
 
