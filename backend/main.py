@@ -8,6 +8,9 @@ os.environ["OPENAI_API_KEY"] = "sk-no-network-allowed-local-bridge-only"
 os.environ["OPENAI_API_BASE"] = "http://localhost:9999/v1" # Point to nowhere
 # -----------------------------------------
 
+from dotenv import load_dotenv
+load_dotenv()
+
 from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
