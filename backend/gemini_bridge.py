@@ -1,8 +1,9 @@
+import os
 import subprocess
 import json
 import logging
-import os
 from typing import Any, List, Optional
+from google import genai
 from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_core.messages import BaseMessage, AIMessage
 from langchain_core.outputs import ChatResult, ChatGeneration
@@ -11,9 +12,20 @@ logger = logging.getLogger(__name__)
 
 class LocalCLIBridge(BaseChatModel):
     """
-    A pure LangChain bridge that routes prompts through the local Gemini CLI.
+    A unified bridge that uses Gemini API (Direct SDK) if GEMINI_API_KEY is present,
+    otherwise falls back to the local Gemini CLI.
     """
-    model_name: str = "local-bridge"
+    model_name: str = "gemini-2.0-flash"
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        api_key = os.getenv("GEMINI_API_KEY")
+        if api_key and not api_key.startswith("YOUR_"):
+            logger.info("BRIDGE - Using Gemini API Key for orchestration")
+            self._client = genai.Client(api_key=api_key)
+        else:
+            logger.info("BRIDGE - No API key found, using local Gemini CLI fallback")
+            self._client = None
 
     def _generate(
         self,
@@ -22,12 +34,32 @@ class LocalCLIBridge(BaseChatModel):
         run_manager: Optional[Any] = None,
         **kwargs: Any,
     ) -> ChatResult:
+        
+        # 1. Try Direct API first if available
+        if self._client:
+            try:
+                # Convert messages to string for simplicity with GenAI SDK
+                prompt = ""
+                for m in messages:
+                    role = "user" if m.type == "human" else "model" if m.type == "ai" else "system"
+                    prompt += f"[{role}]: {m.content}\n\n"
+
+                response = self._client.models.generate_content(
+                    model=self.model_name,
+                    contents=prompt
+                )
+                text = response.text
+                return ChatResult(generations=[ChatGeneration(message=AIMessage(content=text))])
+            except Exception as e:
+                logger.error(f"BRIDGE - API Error, falling back to CLI: {str(e)}")
+
+        # 2. Fallback to CLI
         prompt = ""
         for m in messages:
             role = "USER" if m.type == "human" else "AGENT" if m.type == "ai" else "SYSTEM"
             prompt += f"### {role} ###\n{m.content}\n\n"
 
-        cmd = ["gemini", "--prompt", prompt, "--output-format", "json", "--skip-trust", "--approval-mode", "yolo", "--model", "gemini-2.0-flash"]
+        cmd = ["gemini", "--prompt", prompt, "--output-format", "json", "--skip-trust", "--approval-mode", "yolo", "--model", self.model_name]
         env = os.environ.copy()
         env["GEMINI_CLI_TRUST_WORKSPACE"] = "true"
 
@@ -50,4 +82,4 @@ class LocalCLIBridge(BaseChatModel):
 
     @property
     def _llm_type(self) -> str:
-        return "custom"
+        return "gemini-unified-bridge"
