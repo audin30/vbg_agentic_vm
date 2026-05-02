@@ -7,66 +7,112 @@ from tools import (
     VulnerabilityValidatorTool, WindowsRemediationTool, MacOSRemediationTool, 
     UbuntuRemediationTool, KaliOffensiveTool, FeedbackQueryTool
 )
+from gemini_bridge import SecurityHubLLM
+
+# --- THE UNIVERSAL PYDANTIC BYPASS ---
+# This forces Pydantic to ignore type checking for custom LLM and Tool fields.
+# Essential for using our custom SecurityHubLLM without inheritance conflicts.
+Agent.model_fields['llm'].annotation = Any
+Agent.model_fields['tools'].annotation = Any
+Agent.model_rebuild(force=True)
+
+# Crew in version 0.5.0 doesn't have manager_llm field, so we don't try to bypass it here.
+# If using a later version that HAS manager_llm, uncomment below:
+# if 'manager_llm' in Crew.model_fields:
+#     Crew.model_fields['manager_llm'].annotation = Any
+#     Crew.model_rebuild(force=True)
+# -------------------------------------
 
 load_dotenv()
 
-def get_agents():
-    # We use a simple string. CrewAI will call our local proxy 
-    # because of the OPENAI_API_BASE environment variable.
-    llm = "gpt-4"
+def get_agents(llm=None):
+    if llm is None:
+        llm = SecurityHubLLM()
     
     coordinator = Agent(
         role='Security Operations Coordinator',
-        goal='Orchestrate the security team',
-        backstory="Lead orchestrator.",
+        goal='Orchestrate the security team to fulfill user requests by delegating tasks to specialists',
+        backstory="You are the lead orchestrator of a high-performance security team.",
         llm=llm,
         verbose=True,
-        allow_delegation=True
+        allow_delegation=True,
+        memory=False
     )
 
     researcher = Agent(
         role='Threat Intelligence Researcher',
-        goal='Investigate indicators',
-        backstory="Researcher specializing in TI.",
+        goal='Identify and enrich security indicators to determine their maliciousness',
+        backstory="Expert security researcher. Correlate data from multi-sources.",
         tools=[ThreatIntelTool(), FeedbackQueryTool()],
         llm=llm,
         verbose=True,
-        allow_delegation=True
+        allow_delegation=True,
+        memory=False
     )
 
     vuln_spec = Agent(
-        role='Vulnerability Specialist',
-        goal='Validate CVEs',
-        backstory="Offensive security specialist.",
+        role='Vulnerability Validation Specialist',
+        goal='Validate specific CVEs and vulnerabilities to confirm their exploitability',
+        backstory="Elite offensive security specialist.",
         tools=[VulnerabilityValidatorTool(), KaliOffensiveTool(), FeedbackQueryTool()],
         llm=llm,
         verbose=True,
-        allow_delegation=False
+        allow_delegation=False,
+        memory=False
     )
 
     risk_analyst = Agent(
         role='Security Risk Analyst',
-        goal='Prioritize findings',
-        backstory="Senior risk analyst.",
+        goal='Prioritize security vulnerabilities from the database',
+        backstory="Senior risk analyst. Prioritize issues from Tenable, Wiz, and CISA.",
         tools=[SecurityPrioritizerTool(), EmailReporterTool(), FeedbackQueryTool()],
         llm=llm,
         verbose=True,
-        allow_delegation=True
+        allow_delegation=True,
+        memory=False
     )
 
-    return coordinator, researcher, vuln_spec, risk_analyst
+    return (coordinator, researcher, vuln_spec, risk_analyst), llm
 
 def create_security_crew(indicator=None, indicator_type=None):
-    agents = get_agents()
+    agents, llm = get_agents()
     coordinator, researcher, vuln_spec, risk_analyst = agents
+    
     tasks = []
     if indicator and indicator_type:
-        tasks.append(Task(description=f"Investigate {indicator}.", agent=researcher if indicator_type != 'cve' else vuln_spec, expected_output="Report."))
-    tasks.append(Task(description="Fetch top 10 prioritized findings.", agent=risk_analyst, expected_output="List."))
-    return Crew(agents=list(agents), tasks=tasks, process=Process.sequential, verbose=True)
+        tasks.append(Task(
+            description=f"Investigate the security indicator '{indicator}' of type '{indicator_type}'.",
+            agent=researcher if indicator_type != 'cve' else vuln_spec,
+            expected_output="A detailed security report."
+        ))
+    
+    tasks.append(Task(
+        description="Fetch top 10 prioritized security findings from the database.",
+        agent=risk_analyst,
+        expected_output="A list of prioritized vulnerabilities."
+    ))
+    
+    # In CrewAI 0.5.0, manager_llm is not a parameter for sequential process.
+    return Crew(
+        agents=list(agents),
+        tasks=tasks,
+        process=Process.sequential,
+        verbose=True
+    )
 
 def create_chat_crew(question):
-    agents = get_agents()
+    agents, llm = get_agents()
     coordinator = agents[0]
-    analysis_task = Task(description=f"Answer: '{question}'", agent=coordinator, expected_output="Report.")
-    return Crew(agents=list(agents), tasks=[analysis_task], process=Process.sequential, verbose=True)
+    
+    analysis_task = Task(
+        description=f"Analyze and respond to the following security request: '{question}'",
+        agent=coordinator,
+        expected_output="A comprehensive security report answering the user's question."
+    )
+    
+    return Crew(
+        agents=list(agents),
+        tasks=[analysis_task],
+        process=Process.sequential,
+        verbose=True
+    )

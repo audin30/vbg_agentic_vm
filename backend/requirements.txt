@@ -7,7 +7,6 @@ psycopg2-binary
 pywinrm
 paramiko
 pydantic
-openai
 langsmith
 chromadb
 python-jose[cryptography]
