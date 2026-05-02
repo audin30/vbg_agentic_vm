@@ -7,31 +7,26 @@ from tools import (
     VulnerabilityValidatorTool, WindowsRemediationTool, MacOSRemediationTool, 
     UbuntuRemediationTool, KaliOffensiveTool, FeedbackQueryTool
 )
-
 from gemini_bridge import LocalCLIBridge
 
-load_dotenv()
-
 # --- THE UNIVERSAL PYDANTIC BYPASS ---
-# Manually override Pydantic validation for the Agent class to allow 
-# our custom bridge and custom tools without version conflict errors.
+# This forces Pydantic to ignore type checking for these fields.
 Agent.model_fields['llm'].annotation = Any
 Agent.model_fields['tools'].annotation = Any
 Agent.model_rebuild(force=True)
-
-# Also bypass Crew manager validation
 Crew.model_fields['manager_llm'].annotation = Any
 Crew.model_rebuild(force=True)
 # -------------------------------------
 
+load_dotenv()
+
 def get_agents():
-    # Use the Pure Local CLI Bridge (No OpenAI dependency)
     llm = LocalCLIBridge()
     
     coordinator = Agent(
         role='Security Operations Coordinator',
-        goal='Orchestrate the security team to fulfill user requests by delegating tasks to specialists',
-        backstory="You are the lead orchestrator of a high-performance security team.",
+        goal='Orchestrate the security team',
+        backstory="Lead orchestrator.",
         llm=llm,
         verbose=True,
         allow_delegation=True,
@@ -40,8 +35,8 @@ def get_agents():
 
     researcher = Agent(
         role='Threat Intelligence Researcher',
-        goal='Identify and enrich security indicators to determine their maliciousness',
-        backstory="Expert security researcher. Correlate data from multi-sources.",
+        goal='Investigate indicators',
+        backstory="Researcher.",
         tools=[ThreatIntelTool(), FeedbackQueryTool()],
         llm=llm,
         verbose=True,
@@ -50,9 +45,9 @@ def get_agents():
     )
 
     vuln_spec = Agent(
-        role='Vulnerability Validation Specialist',
-        goal='Validate specific CVEs and vulnerabilities to confirm their exploitability',
-        backstory="Elite offensive security specialist.",
+        role='Vulnerability Specialist',
+        goal='Validate CVEs',
+        backstory="Specialist.",
         tools=[VulnerabilityValidatorTool(), KaliOffensiveTool(), FeedbackQueryTool()],
         llm=llm,
         verbose=True,
@@ -62,8 +57,8 @@ def get_agents():
 
     risk_analyst = Agent(
         role='Security Risk Analyst',
-        goal='Prioritize security vulnerabilities from the database',
-        backstory="Senior risk analyst. Prioritize issues from Tenable, Wiz, and CISA.",
+        goal='Prioritize findings',
+        backstory="Risk analyst.",
         tools=[SecurityPrioritizerTool(), EmailReporterTool(), FeedbackQueryTool()],
         llm=llm,
         verbose=True,
@@ -74,48 +69,21 @@ def get_agents():
     return coordinator, researcher, vuln_spec, risk_analyst
 
 def create_security_crew(indicator=None, indicator_type=None):
-    coordinator, researcher, vuln_spec, risk_analyst = get_agents()
+    agents = get_agents()
+    coordinator, researcher, vuln_spec, risk_analyst = agents
     
     tasks = []
     if indicator and indicator_type:
-        if indicator_type == 'cve':
-            tasks.append(Task(
-                description=f"Validate the CVE '{indicator}'.",
-                agent=vuln_spec,
-                expected_output="A validation report for the CVE."
-            ))
-        else:
-            tasks.append(Task(
-                description=f"Investigate the indicator '{indicator}'.",
-                agent=researcher,
-                expected_output="A threat intel report."
-            ))
+        tasks.append(Task(description=f"Investigate {indicator}.", agent=researcher if indicator_type != 'cve' else vuln_spec, expected_output="Report."))
     
-    tasks.append(Task(
-        description="Fetch top 10 prioritized security findings.",
-        agent=risk_analyst,
-        expected_output="A list of top 10 vulnerabilities."
-    ))
+    tasks.append(Task(description="Fetch top 10 prioritized security findings.", agent=risk_analyst, expected_output="List."))
     
-    return Crew(
-        agents=[coordinator, researcher, vuln_spec, risk_analyst],
-        tasks=tasks,
-        process=Process.sequential,
-        verbose=True
-    )
+    return Crew(agents=list(agents), tasks=tasks, process=Process.sequential, verbose=True)
 
 def create_chat_crew(question):
-    coordinator, researcher, vuln_spec, risk_analyst = get_agents()
+    agents = get_agents()
+    coordinator = agents[0]
     
-    analysis_task = Task(
-        description=f"Analyze and respond to the following security request: '{question}'",
-        agent=coordinator,
-        expected_output="A detailed security report answering the user's question."
-    )
+    analysis_task = Task(description=f"Answer: '{question}'", agent=coordinator, expected_output="Answer.")
     
-    return Crew(
-        agents=[coordinator, researcher, vuln_spec, risk_analyst],
-        tasks=[analysis_task],
-        process=Process.sequential,
-        verbose=True
-    )
+    return Crew(agents=list(agents), tasks=[analysis_task], process=Process.sequential, verbose=True)
